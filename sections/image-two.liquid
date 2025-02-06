@@ -1,0 +1,378 @@
+
+
+<section id="section-{{ section.id }}" data-section-id="{{ section.id }}" class=" {% if section.settings.add_padding_top %} section_padding_top_wrap {% endif %} {% if section.settings.add_padding_bottom %} section_padding_bottom_wrap {% endif %}">
+    {% assign trimmed_title = section.settings.title | strip %}
+    {% assign trimmed_sub_title = section.settings.sub_title | strip %}
+    {% if trimmed_title and trimmed_title != '' %}
+      <div class="image_four_title">
+        {{  trimmed_title }}
+      </div>
+    {% endif %}
+
+   {% if trimmed_sub_title and trimmed_sub_title != '' %}
+      <div class="image_four_sub_title">
+        {{  trimmed_sub_title }} 
+      </div>
+    {% endif %}
+    
+  <div class="image_four_wrap">
+    {%  if section.settings.image_1 and section.settings.button_link_1 %}
+      <div class="image_four_item">
+        <a href="{{ section.settings.button_link_1 }}">
+            <img loading="lazy" src="{{ section.settings.image_1 | img_url:"master" }}">
+            <div class="image_four_item_caption">
+              {% if section.settings.product_description_1 != blank %}
+                {{ section.settings.product_description_1 }}
+              {% endif %}
+              {% if section.settings.product_author_1 != blank %}
+                <h5>{{ section.settings.product_author_1 }}</h5>
+              {% endif %}
+            </div>
+        </a>
+        {% if section.settings.product_title1 != blank %}
+          <div class="image_four_product_name">{{ section.settings.product_title1 }}</div>
+        {% endif %}
+      </div>
+    
+    {% endif %}
+
+    {%  if section.settings.image_2 and section.settings.button_link_2 %}
+      <div class="image_four_item">
+        <a href="{{ section.settings.button_link_2 }}">
+          <img loading="lazy" src="{{ section.settings.image_2 | img_url:"master" }}">
+        </a>
+        <div class="image_four_item_caption">
+          {% if section.settings.product_description_2 != blank %}
+            {{ section.settings.product_description_2 }}            
+          {% endif %}
+          {% if section.settings.product_author_2 != blank %}
+            <h5>{{ section.settings.product_author_2 }}</h5>
+          {% endif %}
+        </div>
+         {% if section.settings.product_title2 != blank %}
+         <div class="image_four_product_name">{{ section.settings.product_title2 }}</div>
+        {% endif %}
+      </div>
+    
+    {% endif %}  
+  </div>
+    
+ 
+</section>
+
+<style>
+  #section-{{ section.id }} .image_four_wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px 0px;
+  }
+
+  #section-{{ section.id }} .image_four_title {
+    font-family: Metanoia;
+    font-size: 50px; 
+    font-weight: 400; 
+    color: #8b8b8b;
+    text-align: center;
+  }
+
+   #section-{{ section.id }} .image_four_sub_title {
+        max-width: 800px;
+        text-align: center;
+        margin: auto;
+        padding: 0 20px;
+        padding-bottom: 25px;
+        padding-top: 10px;
+   }
+  
+    #section-{{ section.id }} .image_four_item {
+        position: relative;
+        width: 50%;
+    }
+    #section-{{ section.id }} .image_four_item img {
+      min-width: 100%;
+    }
+
+    #section-{{ section.id }} .image_four_item_caption {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        left: 0;
+        top: 40%;
+        color: #ffffff;
+    }
+
+    #section-{{ section.id }} .image_four_item_caption p {
+        padding: 0 15% 0 15%;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 24px;
+        line-height: 28px;
+        word-break: break-word;
+    }
+
+    #section-{{ section.id }} .image_four_item_caption h5 {
+        letter-spacing: 1px;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+   #section-{{ section.id }} .image_four_item .image_four_product_name {
+    text-align: center;
+    padding-top: 5px
+  }
+
+  @media screen and (max-width: 768px) {
+
+     #section-{{ section.id }} .image_four_wrap { 
+      flex-wrap: wrap;
+    }
+  
+    #section-{{ section.id }} .image_four_item {
+      width: 49%;
+    }
+
+    #section-{{ section.id }} .image_four_title {
+      font-family: Metanoia; 
+      font-size: 22px; 
+      font-weight: 400; 
+      color: #8b8b8b;
+    }
+
+    #section-{{ section.id }} .image_four_item_caption {
+        top: 25%;        
+    }
+    
+    #section-{{ section.id }} .image_four_item_caption p {
+        font-size: 10px;        
+        line-height: 10px;
+    }
+
+    #section-{{ section.id }} .image_four_item_caption h5 {
+        font-size: 8px;        
+    }
+  }
+  
+</style>
+
+{% schema %}
+{
+  "name": "Image Two",
+  "max_blocks": 18,
+  "settings": [
+    
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "sub_title",
+          "label": "Sub Heading"
+        },    
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image 1",
+          "info": "1120 x 1200px .jpg recommended"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Product link 1",
+          "info": "If none is set, collection URL is used."
+        },
+        {
+          "type": "text",
+          "id": "product_title1",
+          "label": "Product Name1"
+        },
+        {
+          "type": "richtext",
+          "id": "product_description_1",
+          "label": "Product Description 1"
+        },
+        {
+          "type": "text",
+          "id": "product_author_1",
+          "label": "Name 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2",
+          "info": "1120 x 1200px .jpg recommended"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Product link 2",
+          "info": "If none is set, collection URL is used."
+        },
+        {
+          "type": "richtext",
+          "id": "product_description_2",
+          "label": "Product Description 2"
+        },
+        {
+          "type": "text",
+          "id": "product_author_2",
+          "label": "Name 2"
+        },
+        {
+          "type": "text",
+          "id": "product_title2",
+          "label": "Product Name2"
+        },    
+        {
+          "type": "checkbox",
+          "id": "add_padding_top",
+          "label": "Padding Top",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "add_padding_bottom",
+          "label": "Padding Bottom",
+          "default": false
+        }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1120 x 1200px .jpg recommended"
+        },
+        {
+          "type": "select",
+          "id": "image_alignment",
+          "label": "Image alignment",
+          "options": [
+            {
+              "value": "top left",
+              "label": "Top left"
+            },
+            {
+              "value": "top center",
+              "label": "Top center"
+            },
+            {
+              "value": "top right",
+              "label": "Top right"
+            },
+            {
+              "value": "center left",
+              "label": "Middle left"
+            },
+            {
+              "value": "center center",
+              "label": "Middle center"
+            },
+            {
+              "value": "center right",
+              "label": "Middle right"
+            },
+            {
+              "value": "bottom left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom right",
+              "label": "Bottom right"
+            }
+          ],
+          "default": "center center"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "middleLeft",
+              "label": "Middle left"
+            },
+            {
+              "value": "middleRight",
+              "label": "Middle right"
+            },
+            {
+              "value": "middleCenter",
+              "label": "Middle center"
+            },
+            {
+              "value": "bottomLeft",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottomRight",
+              "label": "Bottom right"
+            },
+            {
+              "value": "bottomCenter",
+              "label": "Bottom center"
+            }
+          ],
+          "default": "bottomLeft"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Sub-heading",
+          "default": "Sub-heading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Collection name"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "View products"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link",
+          "info": "If none is set, collection URL is used."
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_overlay",
+          "label": "Apply overlay on image",
+          "info": "This can improve text visibility.",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "category": "Product",
+      "name": "Image Two",
+      "settings": {},
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

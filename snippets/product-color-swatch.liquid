@@ -1,0 +1,67 @@
+{% if product.metafields.custom.colours.value != blank %} 
+    {% for swatch in product.metafields.custom.colours.value %}    
+        {% if swatch.product.value.handle == product.handle %}
+            {% assign match_swatch = swatch %}
+            {% break %}
+        {% endif %}        
+    {% endfor %}
+
+    <div class="ProductSwatch__Content">
+        <div class="ProductForm__Option ProductForm__Option--labelled">
+            <span class="ProductForm__Label">{{label}}: {{match_swatch.color_name.value}}</span>
+
+            <ul class="ColorSwatchList HorizontalList HorizontalList--spacingTight">
+                {% for swatch in product.metafields.custom.colours.value %}    
+                    {% assign swatch_product = swatch.product.value %}
+
+                    <div class="HorizontalList__Item">
+                        <a href="{% if swatch_product.available %}{{swatch_product.url}}{% else %}#{% endif %}" class="ProductColorSwatchItem {% if swatch_product.available %} {% else %} disabled{% endif %} {% if swatch_product.handle == product.handle %} active{% endif %}">
+                            {% if swatch.option_type.value == 'Image' %}
+                            <img src="{{ swatch.image.value | image_url: width: '38X' }}"  alt="{{swatch.color_name.value}}" />
+                            {% else %}
+                            <div class="ProductColorSwatchItem__Color" style="background:{{swatch.color.value}}"> </div>
+                            {% endif %}                        
+                        </a>                
+                    </div>
+                {% endfor %}            
+            </ul>
+        </div>
+    </div>
+{% endif %}
+
+<style>
+  .ProductColorSwatchItem {
+    width: 38px;
+    height: 38px;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #fff;
+    line-height: normal;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1.5px #e8e8e1;
+  }
+  .ProductColorSwatchItem.active {
+    box-shadow: 0 0 0 2px #888883;
+  }
+  .ProductColorSwatchItem img {
+    object-fit: contain;
+    vertical-align: initial;
+  }
+  .ProductForm__Label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  .ColorSwatchList {
+    padding: 0 8px;
+  }
+  .HorizontalList--spacingTight {
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  .HorizontalList {
+    display: flex;
+    gap: 15px;
+    margin: 0 -8px;
+  }
+</style>

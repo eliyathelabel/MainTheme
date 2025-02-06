@@ -1,0 +1,75 @@
+
+
+<section id="section-{{ section.id }}" data-section-id="{{ section.id }}" >
+
+ <div class="padding-section_wrap">
+  
+ </div>
+    
+ 
+</section>
+
+<style>
+
+ 
+
+  
+  #section-{{ section.id }} .padding-section_wrap {
+        height: {{section.settings.padding_size}}px;
+  }
+
+ 
+
+  @media screen and (max-width: 768px) {
+
+     #section-{{ section.id }} .image_four_wrap { 
+      flex-wrap: wrap;
+    }
+  
+    #section-{{ section.id }} .image_four_item {
+      width: 48%;
+    }  
+
+    #section-{{ section.id }} .image_four_title {
+    font-family: Metanoia; 
+    font-size: 22px; 
+    font-weight: 400; 
+    color: #8b8b8b;
+  }
+  }
+
+  
+</style>
+
+{% schema %}
+{
+  "name": "Padding Section",
+  "max_blocks": 18,
+  "settings": [
+    
+      
+        {
+          "type": "range",
+          "id": "padding_size",
+          "min": 5,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Change Padding Size",
+          "default": 50
+        }
+  ],
+  "blocks": [
+    
+  ],
+  "presets": [
+    {
+      "category": "Product",
+      "name": "Padding Section",
+      "settings": {},
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

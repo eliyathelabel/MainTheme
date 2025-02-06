@@ -1,0 +1,29 @@
+<div class="Product__Lookbook" data-product="{{product.id}}">
+    <div class="complete_look_product_img">
+        <a href="{{ product.url }}">
+            {% if image != blank %}
+            <img src="{{ image | image_url: width: master }}">
+            {% else %}
+            <img src="{{ product.featured_image | image_url: width: master }}">                
+            {% endif %}
+        </a>
+    </div>
+
+    <div class="complete_look_proudct_right">
+        <div class="complete_look_product_title">
+            <a href="{{ product.url }}">{{ product.title }}</a>
+        </div>
+        
+        <div style="margin-top: 10px">
+          {%- if product.available -%}
+            {%- capture quick_buy_id -%}product-quick-buy-{{ section.id }}-{{ block.id }}-{{ quick_buy_context }}-{{ product.id }}{%- endcapture -%}
+              {%- assign button_content = 'product.general.add_to_cart_button' | t -%}
+              <button type="button" aria-controls="{{ quick_buy_id }}" class="button button--outline w-full" style="padding: 10px 0 10px 0;">
+                {{ button_content }}
+              </button>
+              <quick-buy-modal handle="{{ product.handle }}?variant={{ product.selected_or_first_available_variant.id }}" class="quick-buy-modal modal" id="{{ quick_buy_id }}">
+              </quick-buy-modal>            
+          {%- endif -%}
+        </div>
+    </div>   
+</div>

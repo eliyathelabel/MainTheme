@@ -1,0 +1,27 @@
+<product-card class="product-card {% if size == 2 %}double-width{% else %}single-width{% endif %}">
+    <div class="product-card__figure">
+      {% if url contains '.mp4' or url contains '.webm' %}
+        {% if link %}
+          <a href="{{ link }}">
+            <video width="100%" muted autoplay loop preload="none" playsinline>
+              <source src="{{ url }}" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </a>
+        {% else %}
+          <video width="100%" muted autoplay loop preload="none" playsinline>
+            <source src="{{ url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        {% endif %}
+      {% else %}
+        {% if link %}
+          <a href="{{ link }}">
+            <img loading="lazy" width="100%" src="{{ url  }}">            
+          </a>
+        {% else %}
+          <img width="100%" src="{{ url }}">          
+        {% endif %}
+      {% endif %}
+    </div>  
+</product-card>

@@ -1,0 +1,7 @@
+{% if variant.inventory_quantity < 1 %} 
+  {% unless content.description == empty %}
+    <div id="custom-preoder-inline-form-wrapper" class="custom-preoder-inline-form-wrapper {% if variant.inventory_quantity < 1  %} is-visible{% endif %}">
+        <div class="custom-preorder-inline-form-description">{{content.description}}</div>        
+    </div>
+  {% endunless %}
+{% endif %}

@@ -1,0 +1,429 @@
+<style>
+  .myMegaHeading {
+    vertical-align: top;
+    text-align: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-space: .2em;
+    margin-bottom: 6px;
+    color:#303030;
+    transition: color .2s ease-in-out;
+    font-weight:600;
+    font-style: normal;
+    margin-top: 0;
+  }
+  .myMegaSubHeading {
+    color: #595959;
+    font-size: 11px;
+    text-transform: uppercase;
+    transition: color .2s ease-in-out;
+    text-align: center;
+  }
+  .myMegamenu{
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    width: 100%!important;
+   
+  }
+  .myMegamenu-push{
+    min-width: 295px;
+    margin-right:0px;
+    margin-bottom: 20px;
+  }
+.myMegamenu .Image--lazyLoaded.Image--fadeIn {
+    opacity: 1;
+/*     object-fit: cover; */
+}
+   .myMegamenu .MegaMenu__PushImageWrapper{
+/*     height: 60vh; */
+         width: 280px;
+}
+  .myMegamenu::-webkit-scrollbar{
+    height: 2px;
+    width: 2px;
+    background: gray;
+}
+  .myMegamenu::-webkit-scrollbar {
+      height: 3px;
+    width: 3px;
+}
+
+/* Track */
+.myMegamenu::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.myMegamenu::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.myMegamenu::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.myMegamenu::-webkit-scrollbar-thumb:horizontal{
+    background: #000;
+    border-radius: 10px;
+  
+}
+</style>
+   {%- assign downcased_mega_menu_name = block.settings.menu_item | downcase -%}
+   {%- assign show_hide_image = block.settings.show_image_on %}
+                    {%- if downcased_mega_menu_name != downcased_link_title -%}
+                      {%- continue -%}
+                    {%- endif -%}
+
+                    {%- assign use_mega_menu = true -%}
+                    {%- assign push_image_count = 0 -%}
+
+                    {%- if block.settings.push_999_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.push_0_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.push_1_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.push_2_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                      {%- if block.settings.push_3_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.push_4_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- if block.settings.push_5_image -%}
+                      {%- assign push_image_count = push_image_count | plus: 1 -%}
+                    {%- endif -%}
+
+                    {%- assign should_space_evenly = false -%}
+
+                    {%- if push_image_count == 0 and link.links.size <= 3 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                    {%- if push_image_count == 1 and link.links.size == 1 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                    {%- if push_image_count == 2 and link.links.size == 1 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                       {%- if push_image_count == 3 and link.links.size == 1 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                     {%- if push_image_count == 4 and link.links.size == 1 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                     {%- if push_image_count == 5 and link.links.size == 1 -%}
+                      {%- assign should_space_evenly = true -%}
+                    {%- endif -%}
+
+                    <div class="mega-menu MegaMenu {% if push_image_count != 0 and link.links.size == 0 %}MegaMenu--spacingCenter{% elsif should_space_evenly %}MegaMenu--spacingEvenly{% endif %} {% if push_image_count == 0 and link.links.size > 4 %}MegaMenu--grid{% endif %}" aria-hidden="true" {{ block.shopify_attributes }}>
+                      <div class="MegaMenu__Inner" style="display: flex;    justify-content: space-between;    align-items: flex-start;    flex-wrap: nowrap;    max-width: 100%;    margin: 0 auto;    padding: 0 10px;">
+                        {%- if push_image_count > 0 -%}
+                          <div class="MegaMenu__Item myMegamenu" style="{% if push_image_count == 1 %}width: 370px; min-width: 250px;{% else %}width: 660px; min-width: 425px;{% endif %}">
+
+                             {%- if block.settings.push_999_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_999_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_999_url }}">
+                                {%- endif -%}
+                                {% if show_hide_image == true %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_999_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_999_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_999_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_999_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_999_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_999_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_999_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_999_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_999_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_999_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                             {%- if block.settings.push_0_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_0_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_0_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image == true %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_0_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_0_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_0_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_0_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_0_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_0_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_0_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_0_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_0_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_0_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                            
+                            {%- if block.settings.push_1_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_1_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_1_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image == true %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_1_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_1_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_1_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_1_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_1_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_1_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_1_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_1_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_1_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_1_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                            {%- if block.settings.push_2_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_2_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_2_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image == true %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_2_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_2_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_2_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_2_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_2_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_2_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_2_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_2_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_2_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_2_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                          {%- if block.settings.push_3_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_3_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_3_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image == true %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_3_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_3_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_3_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_3_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_3_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_3_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_3_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_3_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_3_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_3_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                              {%- if block.settings.push_4_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_4_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_4_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_4_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_4_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_4_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_4_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_4_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_4_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_4_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_4_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_4_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_4_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                            {%- if block.settings.push_5_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_5_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_5_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_5_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_5_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_5_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_5_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_5_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_5_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_5_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_5_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_5_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_5_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                            {%- if block.settings.push_6_image -%}
+                              <div class="myMegaPush myMegamenu-push">
+                                {%- if block.settings.push_6_url != blank -%}
+                                  <a class="MegaMenu__PushLink" href="{{ block.settings.push_6_url }}">
+                                {%- endif -%}
+
+                                {% if show_hide_image %}
+                                  {%- assign max_width = 370 | at_most: block.settings.push_6_image.width -%}
+  
+                                  <div class="MegaMenu__PushImageWrapper AspectRatio" style="margin: 8px auto 20px; background: url({{ block.settings.push_6_image | img_url: '1x1', format: 'jpg' }}); max-width: {{ max_width }}px; --aspect-ratio: {{ block.settings.push_6_image.aspect_ratio }}">
+                                    <img loading="lazy" class="Image--lazyLoad Image--fadeIn"
+                                         src="{{ block.settings.push_6_image | img_url: '370x230', scale: 2 }}"
+                                         alt="{{ block.settings.push_6_image.alt | escape }}">
+  
+                                    <span class="Image__Loader"></span>
+                                  </div>
+                                {% endif %}
+
+                                {%- if block.settings.push_6_heading != blank -%}
+                                  <p class="myMegaHeading">{{ block.settings.push_6_heading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_6_subheading != blank -%}
+                                  <p class="myMegaSubHeading">{{ block.settings.push_6_subheading | escape }}</p>
+                                {%- endif -%}
+
+                                {%- if block.settings.push_6_url != blank -%}
+                                  </a>
+                                {%- endif -%}
+                              </div>
+                            {%- endif -%}
+
+                            
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                    <script>
+                      const slider = document.querySelector('.myMegamenu');
+                      let mouseDown = false;
+                      let startX, scrollLeft;
+                      
+                      let startDragging = function (e) {
+                        mouseDown = true;
+                        startX = e.pageX - slider.offsetLeft;
+                        scrollLeft = slider.scrollLeft;
+                      };
+                      let stopDragging = function (event) {
+                        mouseDown = false;
+                      };
+                      
+                      slider.addEventListener('mousemove', (e) => {
+                        e.preventDefault();
+                        if(!mouseDown) { return; }
+                        const x = e.pageX - slider.offsetLeft;
+                        const scroll = x - startX;
+                        slider.scrollLeft = scrollLeft - scroll;
+                      });
+                      
+                      // Add the event listeners
+                      slider.addEventListener('mousedown', startDragging, false);
+                      slider.addEventListener('mouseup', stopDragging, false);
+                      slider.addEventListener('mouseleave', stopDragging, false);
+                    </script>

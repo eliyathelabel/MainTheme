@@ -1,0 +1,56 @@
+<style>
+        
+  .swiper-container-lookbook .swiper-slide {
+      text-align: center;
+      font-size: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .swiper-button-next svg, .swiper-button-prev svg {
+      width: 50% !important;
+    }
+  
+    .swiper-container-lookbook .swiper-button-next, 
+    .swiper-container-lookbook .swiper-button-prev {
+      display: block !important;
+      color: #000;
+      font-weight: 100;
+    }
+
+    .swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+      display: none !important;
+    }
+    .swiper-button-prev:after, .swiper-rtl .swiper-button-next:after {
+      display: none !important;
+    }
+    .Product_Lookbook_custom img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .ProductQuickForm__CustomTrigger {
+      padding: 7px 10px !important;
+      margin-top: 0px;            
+    }
+    
+</style>
+<div class="Product_Lookbook_custom" data-product="{{ product.id }}" style="max-width: 100%; border:1px solid rgb(230, 230, 228); background-color: rgb(230,230,228);">
+  {%- assign modal_id = 'modal-' | append: block.id | append: '-' | append: product.id -%}
+  <quick-buy-modal id="{{ modal_id }}" handle="{{ product.handle }}?variant={{ product.selected_or_first_available_variant.id }}" class="quick-buy-modal modal modal--lg color-scheme color-scheme--dialog">
+    LOADING
+  </quick-buy-modal>
+  <button aria-controls="{{ modal_id }}">
+    <img src="{{ image.src | img_url: '200x200' }}" alt="{{ image.alt | escape }}">        
+  </button>
+  
+  <div class="complete_look_product_right">
+    <div class="complete_look_product_title" style="min-height: 45px; font-size: 10px; font-weight: 600;letter-spacing:2.2px;">
+      {{ product.title }}
+    </div>
+    <button aria-controls="{{ modal_id }}" class="button button--outline w-full" style="padding: 10px 0; font-size: 10px;">{{ 'product.general.add_to_cart_button' | t }}</button>    
+  </div>    
+</div>
+
