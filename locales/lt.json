@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Šalis",
-      "language": "Kalba"
+      "language": "Kalba",
+      "change_country_accessibility_text": "Keisti šalį ar valiutą",
+      "change_language_accessibility_text": "Keisti kalbą"
     },
     "privacy_banner": {
       "accept": "Priimti",
@@ -75,10 +77,7 @@
       "cart": "Krepšelis",
       "primary_navigation": "Pirminė navigacija",
       "secondary_navigation": "Antrinė navigacija",
-      "open_menu": "Atidaryti naršymo meniu",
-      "open_search": "Atidaryti paiešką",
-      "open_account": "Atidaryti paskyros puslapį",
-      "open_cart": "Atidaryti krepšelį"
+      "menu": "Meniu"
     }
   },
   "product": {
@@ -122,7 +121,15 @@
       "change_quantity": "Keisti kiekį",
       "increase_quantity": "Padidinti kiekį",
       "decrease_quantity": "Sumažinti kiekį",
+      "minimum_of": "Minimali vertė {{ min }}",
+      "maximum_of": "Maksimali vertė {{ max }}",
+      "increment_of": "Priedas {{ step }}",
       "cannot_add_more": "Negalite įtraukti daugiau"
+    },
+    "volume_pricing": {
+      "title": "Kiekybinė kainodara",
+      "minimum": "{{ quantity }}+",
+      "price_at_each": "po {{ price }}/vnt."
     },
     "rating_count": {
       "zero": "{{ count }} peržiūrų",
@@ -198,6 +205,7 @@
     },
     "post": {
       "written_by": "Pagal {{ author }}",
+      "visit_author_website": "Aplankyti autoriaus svetainę",
       "share": "Bendrinti",
       "tags": "Žymės"
     },
@@ -361,7 +369,8 @@
       "product": "Prekė",
       "total": "Iš viso",
       "quantity": "Kiekis",
-      "remove": "Pašalinti"
+      "remove": "Pašalinti",
+      "remove_with_title": "Pašalinti {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Išleiskite dar {{ remaining_amount }}, kad siuntimas būtų nemokamas!",

@@ -60,16 +60,4 @@
       document.querySelector('.shopify-email-marketing-confirmation__container')?.classList.add('prose');
     });
   {%- endif -%}
-
-  {%- if settings.show_page_transition -%}
-    window.addEventListener('pageshow', async (event) => {
-      const isReloaded = (window.performance.navigation && window.performance.navigation.type === 1) || window.performance.getEntriesByType('navigation').map((nav) => nav.type).includes('reload');
-
-      if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches && !event.persisted && !isReloaded && document.referrer.includes(location.host)) {
-        await document.body.animate({opacity: [0, 1]}, {duration: 200}).finished;
-      }
-
-      document.body.style.setProperty('opacity', '1');
-    });
-  {%- endif -%}
 </script>

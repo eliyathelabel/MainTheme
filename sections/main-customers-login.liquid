@@ -21,7 +21,7 @@
 
             {%- when 'fields' -%}
               <div {{ block.shopify_attributes }}>
-                {%- capture form_recover_capture -%}
+                {%- capture _form_recover_capture -%}
                   {%- form 'recover_customer_password' -%}
                     {%- capture form_recover_status -%}
                       {%- if form.posted_successfully? -%}

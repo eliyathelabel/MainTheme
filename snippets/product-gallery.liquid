@@ -30,14 +30,6 @@ Supported variables
     }
   {%- endif -%}
 
-  {%- if mobile_controls == 'dots' -%}
-    @media screen and (max-width: 999px) {
-      #shopify-section-{{ section.id }} .product-gallery {
-        gap: 0px !important;
-      }
-    }
-  {%- endif -%}
-  
   @media screen and (min-width: 1000px) {
     #shopify-section-{{ section.id }} {
       {%- if desktop_layout == 'carousel_thumbnails_left' or desktop_layout == 'grid' -%}
@@ -127,7 +119,7 @@ only way to do it on Shopify right now.
         </carousel-prev-button>
       {%- endif -%}
 
-      <scroll-carousel adaptive-height id="{{ product_gallery_carousel_id }}" class="product-gallery__carousel scroll-area" role="region" style="--image-width: {{ product.selected_or_first_available_variant.featured_media.preview_image.width }}px;">
+      <scroll-carousel adaptive-height id="{{ product_gallery_carousel_id }}" class="product-gallery__carousel scroll-area {% unless mobile_controls == 'arrows' %}full-bleed md:unbleed{% endunless %}" role="region">
         {%- if product != blank -%}
           {%- liquid
             capture sizes
@@ -264,10 +256,7 @@ only way to do it on Shopify right now.
     {%- endif -%}
 
     {%- if mobile_controls == 'dots' or desktop_layout == 'carousel_dots' -%}
-      <carousel-navigation 
-        class="page-dots align-self-center {% unless mobile_controls == 'dots' %}md-max:hidden{% endunless %} {% unless desktop_layout == 'carousel_dots' %}md:hidden{% endunless %}"
-        aria-controls="{{ product_gallery_carousel_id }}"
-        style="--dot-size: calc(100% / {{ product.media.size }});">
+      <carousel-navigation class="page-dots align-self-center {% unless mobile_controls == 'dots' %}md-max:hidden{% endunless %} {% unless desktop_layout == 'carousel_dots' %}md:hidden{% endunless %}" aria-controls="{{ product_gallery_carousel_id }}">
         {%- if product != blank -%}
           {%- for media in product.media -%}
             <button type="button" class="tap-area" {% if filtered_indexes contains media.position %}hidden{% endif %} aria-current="{% if media == default_media %}true{% else %}false{% endif %}">

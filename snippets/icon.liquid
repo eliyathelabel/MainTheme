@@ -180,6 +180,12 @@ Supported variables
       {%- endcase -%}
     </svg>
 
+  {%- when 'info-bubble' -%}
+    <svg aria-hidden="true" fill="none" focusable="false" width="{{ width | default: 13 }}" class="{{ class | strip }}" viewBox="0 0 13 14">
+      <circle cx="6.5" cy="7" r="6.5" fill="currentColor" />
+      <path fill="#fff" d="M6.77 10.57c-.2 0-.353-.06-.46-.18-.107-.12-.16-.287-.16-.5V6.22c0-.22.053-.387.16-.5.107-.12.26-.18.46-.18s.353.06.46.18c.113.113.17.28.17.5v3.67c0 .213-.053.38-.16.5-.107.12-.263.18-.47.18Zm0-5.96c-.233 0-.417-.057-.55-.17-.127-.12-.19-.283-.19-.49 0-.213.063-.377.19-.49.133-.113.317-.17.55-.17.24 0 .423.057.55.17.127.113.19.277.19.49 0 .207-.063.37-.19.49-.127.113-.31.17-.55.17Z"/>
+    </svg>
+
   {%- comment -%} PICTO (SHOP CATEGORY) {%- endcomment -%}
   
   {%- when 'picto-award-gift' -%}

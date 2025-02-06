@@ -52,18 +52,14 @@ therefore using a different structure for the Shadow DOM template
     <div class="header-sidebar__scroller">
       <ul class="header-sidebar__linklist {% if show_dividers %}divide-y{% endif %} unstyled-list" role="list">
         {%- for link in menu.links -%}
-          {%- assign ispink = false -%}
-          {%- if settings.pink_item1 == link.title or settings.pink_item2 == link.title or settings.pink_item3 == link.title -%}
-            {%- assign ispink = true -%}
-          {%- endif -%}
           <li>
             {%- if link.links.size > 0 -%}
-              <button type="button" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}" {% if ispink %}style="color:{{settings.menu_color}}!important"{% endif %} aria-controls="header-panel-{{ forloop.index }}" aria-expanded="false">
+              <button type="button" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}" aria-controls="header-panel-{{ forloop.index }}" aria-expanded="false">
                 {{- link.title -}}
                 {%- render 'icon' with 'chevron-right', width: 12, direction_aware: true -%}
               </button>
             {%- else -%}
-              <a href="{{ link.url }}" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}" {% if ispink %}style="color:{{settings.menu_color}}!important"{% endif %}>
+              <a href="{{ link.url }}" class="header-sidebar__linklist-button {% if section.settings.sidebar_text_font == 'heading' %}h6{% endif %}">
                 {{- link.title -}}
               </a>
             {%- endif -%}

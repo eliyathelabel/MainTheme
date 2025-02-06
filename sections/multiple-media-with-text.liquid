@@ -85,15 +85,15 @@
             <div {{ block.shopify_attributes }} class="align-self-{{ section.settings.media_alignment }}" style="--media-rotate: {{ block.settings.rotation }}deg; {% if forloop.first %}{% if section.settings.media_alignment == 'start' %}grid-row-start: offset-end;{% elsif section.settings.media_alignment == 'end' %}grid-row-end: main-end;{% endif %}{% endif %}">
               {%- if block.type == 'image' and block.settings.image -%}
                 {%- liquid
-                  assign loading_strategy = nil
+                  assign loading_strategy = 'lazy'
 
                   if section.index <= 3 and forloop.first
                     assign loading_strategy = 'eager'
                   endif
                 -%}
 
-                {%- capture sizes_attribute -%}(max-width: 699px) 50vw, 500px{%- endcapture -%}
-                {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading_strategy, sizes: sizes_attribute, widths: '200,300,400,500,600,800,1000,1200' -}}
+                {%- capture sizes_attribute -%}{% if loading_strategy != 'eager' %}auto, {% endif %}(max-width: 699px) 50vw, 500px{%- endcapture -%}
+                {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading_strategy, sizes: sizes_attribute, widths: '200,300,400,500,600,700,800,900,1000,1200,1400' -}}
               {%- elsif block.type == 'video' and block.settings.video -%}
                 {%- render 'media', media: block.settings.video, autoplay: true, loop: true -%}
               {%- else -%}

@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Țară",
-      "language": "Limbă"
+      "language": "Limbă",
+      "change_country_accessibility_text": "Schimbă țara sau moneda",
+      "change_language_accessibility_text": "Schimbă limba"
     },
     "privacy_banner": {
       "accept": "Acceptă",
@@ -75,10 +77,7 @@
       "cart": "Coș",
       "primary_navigation": "Navigare principală",
       "secondary_navigation": "Navigare secundară",
-      "open_menu": "Deschide meniul de navigare",
-      "open_search": "Deschide căutarea",
-      "open_account": "Deschide pagina contului",
-      "open_cart": "Deschide coșul"
+      "menu": "Meniu"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Schimbă cantitatea",
       "increase_quantity": "Crește cantitatea",
       "decrease_quantity": "Scade cantitatea",
+      "minimum_of": "Minim de {{ min }}",
+      "maximum_of": "Maxim de {{ max }}",
+      "increment_of": "Increment de {{ step }}",
       "cannot_add_more": "Nu mai poți adăuga altceva"
+    },
+    "volume_pricing": {
+      "title": "Stabilire preț per volum",
+      "minimum": "Peste {{ quantity }}",
+      "price_at_each": "la {{ price }}/buc."
     },
     "rating_count": {
       "zero": "Nicio o recenzie",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "De {{ author }}",
+      "visit_author_website": "Vizitează site-ul autorului",
       "share": "Distribuie",
       "tags": "Etichete"
     },
@@ -356,7 +364,8 @@
       "product": "Produs",
       "total": "Total",
       "quantity": "Cantitate",
-      "remove": "Elimină"
+      "remove": "Elimină",
+      "remove_with_title": "Eliminați {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Cheltuie încă {{ remaining_amount }} și vei obține livrare gratuită!",

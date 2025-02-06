@@ -685,21 +685,21 @@ quick buy information in a template, that will be extracted in JS, which ensures
       ]
     },
     {
+      "type": "volume_pricing",
+      "name": "t:sections.main_product.blocks.volume_pricing.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.main_product.blocks.volume_pricing.instructions"
+        }
+      ]
+    },
+    {
       "type": "inventory",
       "name": "t:sections.main_product.blocks.inventory.name",
       "limit": 1,
       "settings": [
-        {
-          "type": "checkbox",
-          "id": "show_restock_note",
-          "label": "t:sections.main_product.blocks.inventory.show_restock_note",
-          "default": true
-        },
-        {
-          "type": "color",
-          "id": "text_color",
-          "label": "t:sections.main_product.blocks.inventory.text_color"
-        },
         {
           "type": "checkbox",
           "id": "show_in_stock_quantity",
@@ -728,18 +728,6 @@ quick buy information in a template, that will be extracted in JS, which ensures
           "label": "t:sections.main_product.blocks.inventory.progress_bar_max_value",
           "info": "t:sections.main_product.blocks.inventory.progress_bar_max_value_info",
           "default": 50
-        }
-      ]
-    },
-    {
-      "type": "preorder_widget",
-      "name": "PreOrder Widget",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "description",
-          "label": "Description"
         }
       ]
     },
@@ -781,24 +769,6 @@ quick buy information in a template, that will be extracted in JS, which ensures
           "type": "color",
           "id": "payment_button_text_color",
           "label": "t:sections.main_product.blocks.buy_buttons.payment_button_text_color"
-        }
-      ]
-    },
-    {
-      "type": "lookbooks",
-      "name": "t:sections.main_product.blocks.lookbooks.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "Button Label",
-          "default": "Quick Shop"
         }
       ]
     },
@@ -1831,19 +1801,7 @@ quick buy information in a template, that will be extracted in JS, which ensures
           "default": "More information"
         }
       ]
-    },
-    {
-      "type": "swatch",
-      "name": "Color Swatches",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading"
-        }
-      ]
-    },
+    }
   ]
 }
 {% endschema %}

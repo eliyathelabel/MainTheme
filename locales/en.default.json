@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Country",
-      "language": "Language"
+      "language": "Language",
+      "change_country_accessibility_text": "Change country or currency",
+      "change_language_accessibility_text": "Change language"
     },
     "privacy_banner": {
       "accept": "Accept",
@@ -75,10 +77,7 @@
       "cart": "Cart",
       "primary_navigation": "Primary navigation",
       "secondary_navigation": "Secondary navigation",
-      "open_menu": "Open navigation menu",
-      "open_search": "Open search",
-      "open_account": "Open account page",
-      "open_cart": "Open cart"
+      "menu": "Navigation menu"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Change quantity",
       "increase_quantity": "Increase quantity",
       "decrease_quantity": "Decrease quantity",
+      "minimum_of": "Minimum of {{ min }}",
+      "maximum_of": "Maximum of {{ max }}",
+      "increment_of": "Increment of {{ step }}",
       "cannot_add_more": "You cannot add more"
+    },
+    "volume_pricing": {
+      "title": "Volume pricing",
+      "minimum": "{{ minimum_quantity }}+",
+      "price_at_each": "{{ price }}/ea"
     },
     "rating_count": {
       "zero": "No reviews",
@@ -187,6 +194,7 @@
     },
     "post": {
       "written_by": "Written by {{ author }}",
+      "visit_author_website": "Visit author's website",
       "share": "Share",
       "tags": "Tags"
     },
@@ -354,7 +362,8 @@
       "product": "Product",
       "total": "Total",
       "quantity": "Quantity",
-      "remove": "Remove"
+      "remove": "Remove",
+      "remove_with_title": "Remove {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Spend {{ remaining_amount }} more and get free shipping!",
@@ -462,6 +471,29 @@
     "shop_the_look": {
       "view_products": "View products",
       "view_product": "View product"
+    },
+    "quick_order_list": {
+      "products": "Products",
+      "variants": "Variants",
+      "quantity": "Quantity",
+      "price": "Price",
+      "total": "Total",
+      "remove": "Remove",
+      "quantity_rules": "Quantity rules",
+      "volume_pricing": "Volume pricing",
+      "volume_pricing_available": "Volume pricing available",
+      "show_variants": "Show variants",
+      "minimum_of": "Minimum: {{ min }}",
+      "maximum_of": "Maximum: {{ max }}",
+      "increment_of": "Increment: {{ step }}",
+      "view_cart": "View cart",
+      "remove_all": "Remove all",
+      "item_count": {
+        "zero": "{{ count }} items",
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "product_subtotal": "Product subtotal"
     }
   }
 }

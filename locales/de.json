@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Land",
-      "language": "Sprache"
+      "language": "Sprache",
+      "change_country_accessibility_text": "Land oder Währung ändern",
+      "change_language_accessibility_text": "Sprache ändern"
     },
     "privacy_banner": {
       "accept": "Akzeptieren",
@@ -75,10 +77,7 @@
       "cart": "Warenkorb",
       "primary_navigation": "Hauptnavigation",
       "secondary_navigation": "Sekundäre Navigation",
-      "open_menu": "Navigationsmenü öffnen",
-      "open_search": "Suche öffnen",
-      "open_account": "Kundenkontoseite öffnen",
-      "open_cart": "Warenkorb öffnen"
+      "menu": "Menü"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Anzahl ändern",
       "increase_quantity": "Anzahl erhöhen",
       "decrease_quantity": "Anzahl verringern",
+      "minimum_of": "Minimum von {{ min }}",
+      "maximum_of": "Maximum von {{ max }}",
+      "increment_of": "Schritt von {{ step }}",
       "cannot_add_more": "Sie können nicht mehr hinzufügen"
+    },
+    "volume_pricing": {
+      "title": "Volumenabhängige Preisgestaltung",
+      "minimum": "{{ quantity }}+",
+      "price_at_each": "bei {{ price }}/Stück"
     },
     "rating_count": {
       "zero": "Keine Bewertungen",
@@ -193,6 +200,7 @@
     },
     "post": {
       "written_by": "Von {{ author }}",
+      "visit_author_website": "Webseite des Autors besuchen",
       "share": "Teilen",
       "tags": "Tags"
     },
@@ -354,7 +362,8 @@
       "product": "Produkt",
       "total": "Summe",
       "quantity": "Anzahl",
-      "remove": "Entfernen"
+      "remove": "Entfernen",
+      "remove_with_title": "Entfernen {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Füge deiner Bestellung Artikel im Wert von {{ remaining_amount }} hinzu und erhalte kostenlosen Versand!",

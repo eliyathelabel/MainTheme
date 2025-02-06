@@ -88,7 +88,7 @@ Supported variables
                   {%- liquid
                     if filter.presentation == 'image'
                       assign wrapper_class_list = 'v-stack gap-2'
-                    elsif filter.presentation == 'swatch'
+                    elsif filter.presentation == 'swatch' or color_label_list contains downcase_label
                       assign wrapper_class_list = 'h-stack wrap gap-2'
                     else
                       assign wrapper_class_list = 'v-stack gap-2.5'
@@ -102,7 +102,7 @@ Supported variables
 
                         if filter.presentation == 'image'
                           render 'option-value', type: 'image_filter', filter_value: filter_value, id_prefix: value_id_prefix
-                        elsif filter.presentation == 'swatch'
+                        elsif filter.presentation == 'swatch' or color_label_list contains downcase_label
                           render 'option-value', type: 'swatch', filter_value: filter_value, show_tooltip: true, id_prefix: value_id_prefix
                         else
                           if section.settings.show_filter_values_count

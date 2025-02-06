@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "מדינה",
-      "language": "שפה"
+      "language": "שפה",
+      "change_country_accessibility_text": "שנה מדינה או מטבע ",
+      "change_language_accessibility_text": "שנה שפה "
     },
     "privacy_banner": {
       "accept": "אשר",
@@ -75,10 +77,7 @@
       "cart": "עגלת קניות",
       "primary_navigation": "ניווט ראשי",
       "secondary_navigation": "ניווט משני",
-      "open_menu": "פתח תפריט ניווט",
-      "open_search": "פתח חיפוש",
-      "open_account": "פתח דף חשבון",
-      "open_cart": "פתח עגלת קניות"
+      "menu": "תפריט"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "שינוי כמות",
       "increase_quantity": "הגדלת הכמות",
       "decrease_quantity": "הקטנת הכמות",
+      "minimum_of": "מינימום של {{ min }}",
+      "maximum_of": "מקסימום של {{ max }}",
+      "increment_of": "הגדלה של {{ step }}",
       "cannot_add_more": "לא ניתן להוסיף"
+    },
+    "volume_pricing": {
+      "title": "תמחור לפי כמות",
+      "minimum": "{{ minimum_quantity }}+",
+      "price_at_each": "{{ price }}/ליחידה"
     },
     "rating_count": {
       "zero": "אין ביקורות",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "בידי {{ author }}",
+      "visit_author_website": "בקר באתר של המחבר",
       "share": "שיתוף",
       "tags": "קטגוריות"
     },
@@ -356,7 +364,8 @@
       "product": "מוצר",
       "total": "סה\"כ",
       "quantity": "כמות",
-      "remove": "הסרה"
+      "remove": "הסרה",
+      "remove_with_title": "הסר {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "קנה בעוד {{ remaining_amount }} ותיהנה ממשלוח חינם!",

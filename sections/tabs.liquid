@@ -15,8 +15,15 @@
           </template>
 
           {%- for block in section.blocks -%}
-            {%- assign title = block.settings.title | default: block.settings.page.title -%}
-            {%- assign content = block.settings.page.content | default: block.settings.content -%}
+            {%- liquid
+              assign title = block.settings.page.title | default: block.settings.title
+
+              if block.type == 'tab'
+                assign content = block.settings.page.content | default: block.settings.content
+              elsif block.type == 'liquid'
+                assign content = block.settings.liquid
+              endif
+            -%}
 
             {%- if title != blank and content != blank -%}
               <button class="h6" type="button" role="tab" slot="title" {{ block.shopify_attributes }}>{{ title }}</button>
@@ -34,8 +41,15 @@
 
         <div class="accordion-group sm:hidden">
           {%- for block in section.blocks -%}
-            {%- assign title = block.settings.title | default: block.settings.page.title -%}
-            {%- assign content = block.settings.page.content | default: block.settings.content -%}
+            {%- liquid
+              assign title = block.settings.page.title | default: block.settings.title
+
+              if block.type == 'tab'
+                assign content = block.settings.page.content | default: block.settings.content
+              elsif block.type == 'liquid'
+                assign content = block.settings.liquid
+              endif
+            -%}
 
             {%- if title != blank and content != blank -%}
               {%- render 'accordion', title: title, content: content, open: block.settings.open_on_mobile, prose_content: true -%}
@@ -119,6 +133,31 @@
           "id": "page",
           "label": "t:sections.tabs.blocks.tab.page",
           "info": "t:sections.tabs.blocks.tab.page_info"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_on_mobile",
+          "label": "t:sections.tabs.blocks.tab.open_on_mobile",
+          "info": "t:sections.tabs.blocks.tab.open_on_mobile_info",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "liquid",
+      "name": "t:sections.tabs.blocks.liquid.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "label": "t:global.text.title",
+          "default": "Tab"
+        },
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "t:global.code.liquid",
+          "default": "<p>Use Liquid code to create advanced customization.</p>"
         },
         {
           "type": "checkbox",

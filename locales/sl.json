@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Država",
-      "language": "Jezik"
+      "language": "Jezik",
+      "change_country_accessibility_text": "Spremeni državo ali valuto",
+      "change_language_accessibility_text": "Spremeni jezik"
     },
     "privacy_banner": {
       "accept": "Sprejmi",
@@ -75,10 +77,7 @@
       "cart": "Košarica",
       "primary_navigation": "Primarno krmarjenje",
       "secondary_navigation": "Sekundarno krmarjenje",
-      "open_menu": "Odpri meni za krmarjenje",
-      "open_search": "Odpri iskanje",
-      "open_account": "Odpri stran z računom",
-      "open_cart": "Odpri nakupovalno košarico"
+      "menu": "Meni"
     }
   },
   "product": {
@@ -123,7 +122,15 @@
       "change_quantity": "Spremeni količino",
       "increase_quantity": "Povečaj količino",
       "decrease_quantity": "Zmanjšaj količino",
+      "minimum_of": "Najmanj {{ min }}",
+      "maximum_of": "Največ {{ max }}",
+      "increment_of": "Povečanje za {{ step }}",
       "cannot_add_more": "Več ni mogoče dodati"
+    },
+    "volume_pricing": {
+      "title": "Količinski popust",
+      "minimum": "{{ quantity }} in več",
+      "price_at_each": "po ceni {{ price }}/kos"
     },
     "rating_count": {
       "zero": "Ni mnenj",
@@ -202,6 +209,7 @@
     },
     "post": {
       "written_by": "Avtor {{ author }}",
+      "visit_author_website": "Obiščite spletno stran avtorja",
       "share": "Deli",
       "tags": "Oznake"
     },
@@ -366,7 +374,8 @@
       "product": "Izdelek",
       "total": "Skupaj",
       "quantity": "Količina",
-      "remove": "Odstrani"
+      "remove": "Odstrani",
+      "remove_with_title": "Odstrani {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Dodajte še za {{ remaining_amount }} izdelkov in izkoristite brezplačno poštnino!",

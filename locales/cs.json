@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Země",
-      "language": "Jazyk"
+      "language": "Jazyk",
+      "change_country_accessibility_text": "Změnit zemi nebo měnu",
+      "change_language_accessibility_text": "Změnit jazyk"
     },
     "privacy_banner": {
       "accept": "Přijmout",
@@ -75,10 +77,7 @@
       "cart": "Košík",
       "primary_navigation": "Primární navigace",
       "secondary_navigation": "Sekundární navigace",
-      "open_menu": "Otevřít navigační menu",
-      "open_search": "Otevřít vyhledávání",
-      "open_account": "Otevřít stránku účtu",
-      "open_cart": "Otevřít košík"
+      "menu": "Nabídka"
     }
   },
   "product": {
@@ -123,7 +122,15 @@
       "change_quantity": "Změnit počet",
       "increase_quantity": "Zvýšit množství",
       "decrease_quantity": "Snížit množství",
+      "minimum_of": "Minimálně {{ min }}",
+      "maximum_of": "Maximálně {{ max }}",
+      "increment_of": "Přírůstek o {{ step }}",
       "cannot_add_more": "Nelze přidat další"
+    },
+    "volume_pricing": {
+      "title": "Ceny s objemovou slevou",
+      "minimum": "{{ quantity }} a více",
+      "price_at_each": "{{ price }} / ks"
     },
     "rating_count": {
       "zero": "Žádné recenze",
@@ -202,6 +209,7 @@
     },
     "post": {
       "written_by": "Od {{ author }}",
+      "visit_author_website": "Navštívit web autora",
       "share": "Sdílet",
       "tags": "Štítky"
     },
@@ -366,7 +374,8 @@
       "product": "Produkt",
       "total": "Celkem",
       "quantity": "Množství",
-      "remove": "Odstranit"
+      "remove": "Odstranit",
+      "remove_with_title": "Odstranit {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Pokud nakoupíte za dalších {{ remaining_amount }}, získáte dopravu zdarma!",

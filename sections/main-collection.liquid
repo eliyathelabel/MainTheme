@@ -36,32 +36,6 @@
       assign products_mobile_grid_mode = 'medium'
     endif
   endif
-
-  if collection.metafields.custom.first_banner_image_position 
-    assign first_position = collection.metafields.custom.first_banner_image_position 
-  else 
-    assign first_position = 9 
-  endif
-  if collection.metafields.custom.second_banner_image_position 
-    assign second_position = collection.metafields.custom.second_banner_image_position 
-  else 
-    assign second_position = 22 
-  endif
-  if collection.metafields.custom.third_banner_image_positionn 
-    assign third_position = collection.metafields.custom.third_banner_image_positionn 
-  else 
-    assign third_position = 37 
-  endif
-  if collection.metafields.custom.fourth_banner_image_position 
-    assign fourth_position = collection.metafields.custom.fourth_banner_image_position 
-  else 
-    assign fourth_position = 50 
-  endif
-  if collection.metafields.custom.fifth_banner_image_position 
-    assign fifth_position = collection.metafields.custom.fifth_banner_image_position
-  else 
-    assign fifth_position = 63 
-  endif
 -%}
 
 {%- comment -%}
@@ -248,35 +222,10 @@ LIQUID
               <div class="collection__main">
                 {%- render 'active-facets', results: collection -%}
 
-                {% assign numPro = 0 %}
                 <product-list id="product-list-{{ section.id }}" class="product-list" collection-mobile-layout="{{ products_mobile_grid_mode }}" collection-desktop-layout="{{ products_desktop_grid_mode }}">
                   {%- for product in collection.products -%}
-                    {% assign numPro = numPro | plus: 1 %}                    
-                    {% if numPro == first_position and collection.metafields.custom.banner_image and paginate.current_page == 1 %}
-                      {% assign banner_url = collection.metafields.custom.banner_image | file_url %}
-                      {%- render 'banner-product-card', url: banner_url, link: collection.metafields.custom.banner_image_link, size: collection.metafields.custom.banner_image_1_size -%}                      
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% elsif numPro == second_position and collection.metafields.custom.banner_image_2 and paginate.current_page == 1 %}
-                      {% assign banner_url_2 = collection.metafields.custom.banner_image_2 | file_url %}
-                      {%- render 'banner-product-card', url: banner_url_2, link: collection.metafields.custom.banner_image_2_link, size: collection.metafields.custom.banner_image_2_size -%}                      
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% elsif numPro == third_position and collection.metafields.custom.banner_image_3 and paginate.current_page == 1 %}
-                      {% assign banner_url_3 = collection.metafields.custom.banner_image_3 | file_url %}
-                      {%- render 'banner-product-card', url: banner_url_3, link: collection.metafields.custom.banner_image_3_link, size: collection.metafields.custom.banner_image_3_size -%}                      
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% elsif numPro == fourth_position and collection.metafields.custom.banner_image_4 and paginate.current_page == 1 %}
-                      {% assign banner_url_4 = collection.metafields.custom.banner_image_4 | file_url %}
-                      {%- render 'banner-product-card', url: banner_url_4, link: collection.metafields.custom.banner_image_4_link, size: collection.metafields.custom.banner_image_4_size -%}                      
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% elsif numPro == fifth_position and collection.metafields.custom.banner_image_5  and paginate.current_page == 1%}
-                      {% assign banner_url_5 = collection.metafields.custom.banner_image_5 | file_url %}
-                      {%- render 'banner-product-card', url: banner_url_5, link: collection.metafields.custom.banner_image_5_link, size: collection.metafields.custom.banner_image_5_size -%}                      
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% else %}
-                      {%- render 'custom-product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
-                    {% endif %}
-                    
-                  {%- endfor -%}                    
+                    {%- render 'product-card', product: product, reveal: settings.stagger_products_apparition, position: forloop.index, hide_product_information: section.settings.hide_product_information, stacked: true -%}
+                  {%- endfor -%}
                 </product-list>
 
                 {%- render 'pagination', paginate: paginate, facet: true -%}

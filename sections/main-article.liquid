@@ -87,14 +87,46 @@
       </div>
 
       {%- if section.settings.show_author or section.settings.show_share_buttons -%}
+        {%- if section.settings.show_author and article.user.bio != blank or article.user.image != blank or article.user.homepage != blank -%}
+          {%- assign has_extended_profile = true -%}
+        {%- else -%}
+          {%- assign has_extended_profile = false -%}
+        {%- endif -%}
+
         <div class="article__footer">
-          {%- if section.settings.show_author -%}
-            <p class="h6 text-subdued">{{ 'blog.post.written_by' | t: author: article.author }}</p>
+          {%- if has_extended_profile -%}
+            <div class="article__author">
+              {%- if article.user.image != blank -%}
+                {{- article.user.image | image_url: width: article.user.image.width | image_tag: loading: 'lazy', sizes: '60px', widths: '60,120,180', class: 'article__author-image' -}}
+              {%- endif -%}
+
+              <div class="v-stack gap-3 justify-items-start">
+                <p class="h6">{{ 'blog.post.written_by' | t: author: article.author }}</p>
+
+                {%- if article.user.bio != blank -%}
+                  <div class="prose">
+                    {{- article.user.bio -}}
+                  </div>
+                {%- endif -%}
+
+                {%- if article.user.homepage != blank -%}
+                  <a href="{{ article.user.homepage }}" class="link" target="_blank">{{ 'blog.post.visit_author_website' | t }}</a>
+                {%- endif -%}
+              </div>
+            </div>
           {%- endif -%}
 
-          {%- if section.settings.show_share_buttons -%}
-            {%- render 'share-buttons', layout: 'block', url: article.url, title: article.title, description: article.content -%}
-          {%- endif -%}
+          <div class="article__footer-bottom">
+            {%- if section.settings.show_author and has_extended_profile == false -%}
+              <p class="h6 text-subdued">{{ 'blog.post.written_by' | t: author: article.author }}</p>
+            {%- elsif section.settings.show_share_buttons -%}
+              <p class="h6 text-subdued">{{ 'blog.post.share' | t }}</p>
+            {%- endif -%}
+
+            {%- if section.settings.show_share_buttons -%}
+              {%- render 'share-buttons', layout: 'block', url: article.url, title: article.title, description: article.content -%}
+            {%- endif -%}
+          </div>
         </div>
       {%- endif -%}
     </div>

@@ -2,14 +2,13 @@
 
 <html lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
   <head>
-{% include 'booster-seo' %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0">
 
-    {% comment %}<title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>{% endcomment %}
+    <title>{% if page_title == blank %}{{ shop.name }}{% else %}{{ page_title }}{% if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif %}{% endif %}</title>
 
     {%- if page_description -%}
-      {% comment %}<meta name="description" content="{{ page_description | escape }}">{% endcomment %}
+      <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
 
     <link rel="canonical" href="{{ canonical_url }}">
@@ -62,28 +61,21 @@
 
     <script type="module" src="{{ 'vendor.min.js' | asset_url }}"></script>
     <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
-    <script type="module" src="{{ 'custom.js' | asset_url }}"></script>
-    
-    <!-- pxu-sections-js start DO NOT EDIT --><script src="{{ 'pxu-sections.js' | asset_url }}" defer></script><!-- DO NOT EDIT pxu-sections-js end-->
-{{ content_for_header }}
 
-    {{- 'theme.aio.min.css' | asset_url | stylesheet_tag: preload: true -}}
-  <!-- pxu-sections-css start DO NOT EDIT -->{{ "pxu-sections.css" | asset_url | stylesheet_tag }}<!-- DO NOT EDIT pxu-sections-css end-->
-</head>
+    {{ content_for_header }}
+
+    {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
+  </head>
 
   {% liquid
     assign features_class = ''
-
+  
     if settings.show_button_transition
       assign features_class = features_class | append: 'features--button-transition '
     endif
-
+  
     if settings.show_image_zoom_on_hover
       assign features_class = features_class | append: 'features--zoom-image '
-    endif
-
-    if settings.show_page_transition
-      assign features_class = features_class | append: 'features--page-transition '
     endif
   %}
 
@@ -119,26 +111,3 @@
     </main>
   </body>
 </html>
-{% if template contains 'product' or template contains 'cart' %}
-  {% if cart.currency.iso_code == shop.currency %}
-  <script type="text/javascript">
-  var afterpay_product_selector = '.ProductMeta > .ProductMeta__PriceList';
-  var afterpay_variable_price_fallback_selector = '.ProductMeta > .ProductMeta__PriceList';
-  var afterpay_js_language = {{ localization.language.iso_code | slice: 0, 2 | json }};
-  var afterpay_js_country = {{ localization.country.iso_code | json }};
-  var afterpay_shop_currency = {{ shop.currency | json }};
-  var afterpay_cart_currency = {{ cart.currency.iso_code | json }};
-  var afterpay_shop_money_format = {{ shop.money_format | json }};
-  var afterpay_shop_permanent_domain = {{ shop.permanent_domain | json }};
-  var afterpay_theme_name = {{ theme.name | json }};
-  var afterpay_product = {{ product | json }};
-  var afterpay_current_variant = {{ product.selected_or_first_available_variant | json }};
-  var afterpay_cart_total_price = {{ cart.total_price | json }};
-  var afterpay_js_snippet_version = '1.1.5';
-  </script>
-  <script type="text/javascript" src="https://static.afterpay.com/shopify-afterpay-javascript.js"></script>
-  {% else %}
-  <!-- Afterpay disabled: {{ cart.currency.iso_code }} != {{ shop.currency }} -->
-  {% endif %}
-  <!-- End Shopify-Afterpay JavaScript Snippet (v1.1.5) -->
-{% endif %}

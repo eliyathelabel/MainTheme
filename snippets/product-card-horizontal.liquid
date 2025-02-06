@@ -20,20 +20,6 @@ Supported variables
     </a>
   {%- endif -%}
 
-  {% if product.metafields.custom.product_offer != blank %}
-      <div class="mobile_availability_show" style="
-          {% for color in product.metafields.custom.product_offer_colors.value %}
-            {% if forloop.index == 1 %} background-color:{{ color }}; {% endif %}
-            {% if forloop.index == 2 %} color:{{ color }}; {% endif %}
-          {% endfor %}
-        ">
-        <span>
-          {{ product.metafields.custom.product_offer | metafield_tag }}
-        </span>
-      </div>
-    {% endif %}
-  
-  
   <div class="horizontal-product-card__info">
     <div class="v-stack gap-1 justify-items-start">
       <a href="{{ product.url }}" class="product-title {% if settings.product_card_text_font == 'heading' %}h6{% endif %}" data-instant>{{ product.title }}</a>

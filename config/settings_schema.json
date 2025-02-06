@@ -3,35 +3,9 @@
     "name": "theme_info",
     "theme_name": "Prestige",
     "theme_author": "Maestrooo",
-    "theme_version": "10.2.0",
+    "theme_version": "10.5.1",
     "theme_documentation_url": "https://support.maestrooo.com/",
     "theme_support_url": "https://support.maestrooo.com/article/203-contact-us"
-  },
-  {
-    "name": "Header",
-    "settings": [
-      {
-        "type": "text",
-        "id": "pink_item1",
-        "label": "Pink Menu Item1"
-      },
-      {
-        "type": "text",
-        "id": "pink_item2",
-        "label": "Pink Menu Item2"
-      },
-      {
-        "type": "text",
-        "id": "pink_item3",
-        "label": "Pink Menu Item3"
-      },
-      {
-        "type": "color",
-        "id": "menu_color",
-        "label": "Color",
-        "default": "#B6A79D"
-      }
-    ]
   },
   {
     "name": "t:theme_settings.appearance.name",
@@ -428,13 +402,6 @@
       },
       {
         "type": "checkbox",
-        "id": "show_page_transition",
-        "label": "t:theme_settings.animation.show_page_transition",
-        "info": "t:theme_settings.animation.show_page_transition_info",
-        "default": false
-      },
-      {
-        "type": "checkbox",
         "id": "show_button_transition",
         "label": "t:theme_settings.animation.show_button_transition",
         "default": true
@@ -509,6 +476,10 @@
             "label": "t:theme_settings.product_card.product_image_size_options.square"
           },
           {
+            "value": "portrait",
+            "label": "t:theme_settings.product_card.product_image_size_options.portrait"
+          },
+          {
             "value": "tall",
             "label": "t:theme_settings.product_card.product_image_size_options.tall"
           },
@@ -519,6 +490,10 @@
           {
             "value": "square_crop",
             "label": "t:theme_settings.product_card.product_image_size_options.square_crop"
+          },
+          {
+            "value": "portrait_crop",
+            "label": "t:theme_settings.product_card.product_image_size_options.portrait_crop"
           },
           {
             "value": "tall_crop",

@@ -27,7 +27,7 @@ Supported variables
     {%- endcomment -%}
 
     <div class="relative">
-      <button type="button" class="localization-toggle heading text-xxs link-faded" aria-controls="{{ localization_popover_id }}" aria-expanded="false">
+      <button type="button" class="localization-toggle heading text-xxs link-faded" aria-controls="{{ localization_popover_id }}" aria-label="{{ 'general.localization.change_country_accessibility_text' | t | escape }}" aria-expanded="false">
         {%- if show_country_flag -%}
           {{- localization.country | image_url: width: 60, format: 'jpg' | image_tag: class: 'country-flag' -}}
         {%- endif -%}
@@ -74,7 +74,7 @@ Supported variables
     {%- endcomment -%}
 
     <div class="relative">
-      <button type="button" class="localization-toggle heading text-xxs link-faded" aria-controls="{{ localization_popover_id }}" aria-expanded="false">
+      <button type="button" class="localization-toggle heading text-xxs link-faded" aria-controls="{{ localization_popover_id }}" aria-label="{{ 'general.localization.change_language_accessibility_text' | t | escape }}" aria-expanded="false">
         {{- localization.language.endonym_name | capitalize -}}
         {%- render 'icon' with 'chevron-down' -%}
       </button>

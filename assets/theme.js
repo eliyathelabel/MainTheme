@@ -999,7 +999,9 @@ var ScrollCarousel = class extends HTMLElement {
     return this.hasAttribute("adaptive-height");
   }
   get isScrollable() {
-    return this.scrollWidth !== this.clientWidth || this.scrollHeight !== this.clientHeight;
+    const differenceWidth = this.scrollWidth - this.clientWidth;
+    const differenceHeight = this.scrollHeight - this.clientHeight;
+    return differenceWidth > 1 || differenceHeight > 1;
   }
   /**
    * -------------------------------------------------------------------------------------------------------------------
@@ -1433,41 +1435,53 @@ onChangeLinkClicked_fn = function(event, target) {
   __privateMethod(this, _LineItemQuantity_instances, changeLineItemQuantity_fn).call(this, url.searchParams.get("id"), parseInt(url.searchParams.get("quantity")));
 };
 changeLineItemQuantity_fn = async function(lineKey, targetQuantity) {
-  if (window.themeVariables.settings.pageType === "cart") {
-    window.location.href = `${Shopify.routes.root}cart/change?id=${lineKey}&quantity=${targetQuantity}`;
+  document.documentElement.dispatchEvent(new CustomEvent("theme:loading:start", { bubbles: true }));
+  const lineItem = this.closest("line-item");
+  lineItem?.dispatchEvent(new CustomEvent("line-item:will-change", { bubbles: true, detail: { targetQuantity } }));
+  let sectionsToBundle = [];
+  document.documentElement.dispatchEvent(new CustomEvent("cart:prepare-bundled-sections", { bubbles: true, detail: { sections: sectionsToBundle } }));
+  const response = await fetch(`${Shopify.routes.root}cart/change.js`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: lineKey,
+      quantity: targetQuantity,
+      sections: sectionsToBundle.join(",")
+    })
+  });
+  document.documentElement.dispatchEvent(new CustomEvent("theme:loading:end", { bubbles: true }));
+  if (!response.ok) {
+    const responseContent = await response.json();
+    this.parentElement.querySelector('[role="alert"]')?.remove();
+    const errorSvg = `<svg width="13" height="13" fill="none" viewBox="0 0 13 13">
+        <circle cx="6.5" cy="6.5" r="6.5" fill="#BF1515"/>
+        <path fill="#fff" d="M6.75 7.97a.387.387 0 0 1-.3-.12.606.606 0 0 1-.12-.34l-.3-3.82c-.02-.247.033-.443.16-.59.127-.153.313-.23.56-.23.24 0 .42.077.54.23.127.147.18.343.16.59l-.3 3.82a.522.522 0 0 1-.12.34.344.344 0 0 1-.28.12Zm0 2.08a.744.744 0 0 1-.55-.21.751.751 0 0 1-.2-.54c0-.213.067-.387.2-.52.14-.14.323-.21.55-.21.233 0 .413.07.54.21.133.133.2.307.2.52 0 .22-.067.4-.2.54-.127.14-.307.21-.54.21Z"/>
+      </svg>`;
+    this.insertAdjacentHTML("afterend", `<p class="h-stack gap-2 justify-center text-xs" role="alert">${errorSvg} ${responseContent["description"]}</p>`);
+    this.querySelector("quantity-selector")?.restoreDefaultValue();
   } else {
-    document.documentElement.dispatchEvent(new CustomEvent("theme:loading:start", { bubbles: true }));
-    const lineItem = this.closest("line-item");
-    lineItem?.dispatchEvent(new CustomEvent("line-item:will-change", { bubbles: true, detail: { targetQuantity } }));
-    let sectionsToBundle = [];
-    document.documentElement.dispatchEvent(new CustomEvent("cart:prepare-bundled-sections", { bubbles: true, detail: { sections: sectionsToBundle } }));
-    const cartContent = await (await fetch(`${Shopify.routes.root}cart/change.js`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: lineKey,
-        quantity: targetQuantity,
-        sections: sectionsToBundle.join(",")
-      })
-    })).json();
-    document.documentElement.dispatchEvent(new CustomEvent("theme:loading:end", { bubbles: true }));
-    const lineItemAfterChange = cartContent["items"].filter((lineItem2) => lineItem2["key"] === lineKey);
-    lineItem?.dispatchEvent(new CustomEvent("line-item:change", {
-      bubbles: true,
-      detail: {
-        quantity: lineItemAfterChange.length === 0 ? 0 : lineItemAfterChange[0]["quantity"],
-        cart: cartContent
-      }
-    }));
-    document.documentElement.dispatchEvent(new CustomEvent("cart:change", {
-      bubbles: true,
-      detail: {
-        baseEvent: "line-item:change",
-        cart: cartContent
-      }
-    }));
+    const cartContent = await response.json();
+    if (window.themeVariables.settings.pageType === "cart") {
+      window.location.reload();
+    } else {
+      const lineItemAfterChange = cartContent["items"].filter((lineItem2) => lineItem2["key"] === lineKey);
+      lineItem?.dispatchEvent(new CustomEvent("line-item:change", {
+        bubbles: true,
+        detail: {
+          quantity: lineItemAfterChange.length === 0 ? 0 : lineItemAfterChange[0]["quantity"],
+          cart: cartContent
+        }
+      }));
+      document.documentElement.dispatchEvent(new CustomEvent("cart:change", {
+        bubbles: true,
+        detail: {
+          baseEvent: "line-item:change",
+          cart: cartContent
+        }
+      }));
+    }
   }
 };
 if (!window.customElements.get("line-item-quantity")) {
@@ -1533,7 +1547,7 @@ formatShippingRates_fn = function(shippingRates) {
 formatError_fn = function(errors) {
   let formattedShippingRates = Object.keys(errors).map((errorKey) => {
     return `<li>${errors[errorKey]}</li>`;
-  });
+  }).join("");
   this.resultsElement.innerHTML = `
       <div class="v-stack gap-2">
         <p>${window.themeVariables.strings.shippingEstimatorError}</p>
@@ -1664,11 +1678,11 @@ var DialogElement = class extends HTMLElement {
    * Open the dialog element (the animation can be disabled by passing false as an argument). This function should
    * normally not be directly overriden on children classes
    */
-  show(animate27 = true) {
+  show(animate26 = true) {
     if (this.open) {
       return Promise.resolve();
     }
-    this.setAttribute("open", animate27 ? "" : "immediate");
+    this.setAttribute("open", animate26 ? "" : "immediate");
     return waitForEvent(this, "dialog:after-show");
   }
   /**
@@ -1749,11 +1763,14 @@ var DialogElement = class extends HTMLElement {
    * Get the focus trap element configured with all the other attributes
    */
   get focusTrap() {
-    return __privateSet(this, _focusTrap, __privateGet(this, _focusTrap) || new FocusTrap.createFocusTrap([this, this.shadowRoot], {
+    return __privateSet(this, _focusTrap, __privateGet(this, _focusTrap) || new FocusTrap.createFocusTrap(this, {
       onDeactivate: this.hide.bind(this),
       allowOutsideClick: this.clickOutsideDeactivates ? __privateMethod(this, _DialogElement_instances, allowOutsideClick_fn).bind(this) : false,
       initialFocus: matchesMediaQuery("supports-hover") ? this.initialFocus : false,
       fallbackFocus: this,
+      tabbableOptions: {
+        getShadowRoot: true
+      },
       preventScroll: this.preventScrollWhenTrapped
     }));
   }
@@ -2306,6 +2323,18 @@ var QuantitySelector = class extends HTMLElement {
   disconnectedCallback() {
     __privateGet(this, _abortController5).abort();
   }
+  get quantity() {
+    return __privateGet(this, _inputElement).value;
+  }
+  set quantity(quantity) {
+    __privateGet(this, _inputElement).value = quantity;
+    __privateGet(this, _inputElement).dispatchEvent(new Event("change", { bubbles: true }));
+    __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
+  }
+  restoreDefaultValue() {
+    __privateGet(this, _inputElement).value = __privateGet(this, _inputElement).defaultValue;
+    __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
+  }
 };
 _abortController5 = new WeakMap();
 _decreaseButton = new WeakMap();
@@ -2313,22 +2342,38 @@ _increaseButton = new WeakMap();
 _inputElement = new WeakMap();
 _QuantitySelector_instances = new WeakSet();
 onDecreaseQuantity_fn = function() {
-  __privateGet(this, _inputElement).stepDown();
+  if (this.hasAttribute("allow-reset-to-zero") && __privateGet(this, _inputElement).value === __privateGet(this, _inputElement).min) {
+    __privateGet(this, _inputElement).value = 0;
+  } else {
+    __privateGet(this, _inputElement).stepDown();
+  }
+  __privateGet(this, _inputElement).dispatchEvent(new Event("change", { bubbles: true }));
   __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
 };
 onIncreaseQuantity_fn = function() {
   __privateGet(this, _inputElement).stepUp();
+  __privateGet(this, _inputElement).dispatchEvent(new Event("change", { bubbles: true }));
   __privateMethod(this, _QuantitySelector_instances, updateUI_fn).call(this);
 };
 updateUI_fn = function() {
-  __privateGet(this, _decreaseButton).disabled = __privateGet(this, _inputElement).value <= 1;
+  if (__privateGet(this, _decreaseButton)) {
+    if (this.hasAttribute("allow-reset-to-zero") && __privateGet(this, _inputElement).value === __privateGet(this, _inputElement).min) {
+      __privateGet(this, _decreaseButton).disabled = false;
+    } else {
+      __privateGet(this, _decreaseButton).disabled = parseInt(__privateGet(this, _inputElement).value) <= parseInt(__privateGet(this, _inputElement).min);
+    }
+  }
+  if (__privateGet(this, _increaseButton)) {
+    __privateGet(this, _increaseButton).disabled = __privateGet(this, _inputElement).hasAttribute("max") ? parseInt(__privateGet(this, _inputElement).value) >= parseInt(__privateGet(this, _inputElement).max) : false;
+  }
 };
-var _QuantityInput_instances, inputElement_get, onValueInput_fn;
+var _QuantityInput_instances, inputElement_get, onValueInput_fn, onValueChange_fn;
 var QuantityInput = class extends HTMLElement {
   constructor() {
     super();
     __privateAdd(this, _QuantityInput_instances);
     __privateGet(this, _QuantityInput_instances, inputElement_get).addEventListener("input", __privateMethod(this, _QuantityInput_instances, onValueInput_fn).bind(this));
+    __privateGet(this, _QuantityInput_instances, inputElement_get).addEventListener("change", __privateMethod(this, _QuantityInput_instances, onValueChange_fn).bind(this));
     __privateGet(this, _QuantityInput_instances, inputElement_get).addEventListener("focus", () => __privateGet(this, _QuantityInput_instances, inputElement_get).select());
   }
   connectedCallback() {
@@ -2347,6 +2392,11 @@ onValueInput_fn = function() {
     __privateGet(this, _QuantityInput_instances, inputElement_get).value = __privateGet(this, _QuantityInput_instances, inputElement_get).min || 1;
   }
   this.style.setProperty("--quantity-selector-character-count", `${__privateGet(this, _QuantityInput_instances, inputElement_get).value.length}ch`);
+};
+onValueChange_fn = function() {
+  if (!__privateGet(this, _QuantityInput_instances, inputElement_get).checkValidity()) {
+    __privateGet(this, _QuantityInput_instances, inputElement_get).stepDown();
+  }
 };
 if (!window.customElements.get("quantity-selector")) {
   window.customElements.define("quantity-selector", QuantitySelector);
@@ -2550,8 +2600,12 @@ onSwatchHovered_fn = async function(event, target) {
   }
 };
 onSwatchChanged_fn = async function(event, target) {
-  if (target.hasAttribute("data-variant-id")) {
-    this.querySelectorAll(`a[href^="${Shopify.routes.root}products/${this.getAttribute("handle")}"`).forEach((link) => {
+  if (target.hasAttribute("data-product-url")) {
+    this.querySelectorAll(`a[href^="${Shopify.routes.root}products/"`).forEach((link) => {
+      link.href = target.getAttribute("data-product-url");
+    });
+  } else if (target.hasAttribute("data-variant-id")) {
+    this.querySelectorAll(`a[href^="${Shopify.routes.root}products/"`).forEach((link) => {
       const url = new URL(link.href);
       url.searchParams.set("variant", target.getAttribute("data-variant-id"));
       link.href = `${url.pathname}${url.search}${url.hash}`;
@@ -2561,7 +2615,7 @@ onSwatchChanged_fn = async function(event, target) {
     return;
   }
   let newMedia = JSON.parse(target.getAttribute("data-variant-media")), primaryMediaElement = this.querySelector(".product-card__image--primary"), secondaryMediaElement = this.querySelector(".product-card__image--secondary"), newPrimaryMediaElement = __privateMethod(this, _ProductCard_instances, createMediaImg_fn).call(this, newMedia, primaryMediaElement.className, primaryMediaElement.sizes), newSecondaryMediaElement = null;
-  if (target.hasAttribute("data-variant-secondary-media")) {
+  if (secondaryMediaElement && target.hasAttribute("data-variant-secondary-media")) {
     let newSecondaryMedia = JSON.parse(target.getAttribute("data-variant-secondary-media"));
     newSecondaryMediaElement = __privateMethod(this, _ProductCard_instances, createMediaImg_fn).call(this, newSecondaryMedia, secondaryMediaElement.className, secondaryMediaElement.sizes);
   }
@@ -2600,13 +2654,15 @@ form_get2 = function() {
 };
 onSubmit_fn = async function(event) {
   event.preventDefault();
+  if (event.submitter?.getAttribute("aria-busy") === "true") {
+    return;
+  }
   if (!__privateGet(this, _ProductForm_instances, form_get2).checkValidity()) {
     __privateGet(this, _ProductForm_instances, form_get2).reportValidity();
     return;
   }
   const submitButtons = Array.from(__privateGet(this, _ProductForm_instances, form_get2).elements).filter((button) => button.type === "submit");
   submitButtons.forEach((submitButton) => {
-    submitButton.setAttribute("disabled", "disabled");
     submitButton.setAttribute("aria-busy", "true");
   });
   document.documentElement.dispatchEvent(new CustomEvent("theme:loading:start", { bubbles: true }));
@@ -2624,7 +2680,6 @@ onSubmit_fn = async function(event) {
     }
   });
   submitButtons.forEach((submitButton) => {
-    submitButton.removeAttribute("disabled");
     submitButton.removeAttribute("aria-busy");
   });
   const responseJson = await response.json();
@@ -3120,13 +3175,20 @@ onRerender_fn = function(event) {
   if (!this.hasAttribute("allow-partial-rerender") || event.detail.productChange) {
     this.replaceWith(matchingElement);
   } else {
-    const blockTypes = ["sku", "badges", "price", "payment-terms", "variant-picker", "inventory", "buy-buttons", "pickup-availability", "liquid", "preorder-widget"];
+    const blockTypes = ["sku", "badges", "quantity-selector", "volume-pricing", "price", "payment-terms", "variant-picker", "inventory", "buy-buttons", "pickup-availability", "liquid"];
     blockTypes.forEach((blockType) => {
       this.querySelectorAll(`[data-block-type="${blockType}"]`).forEach((element) => {
         const matchingBlock = matchingElement.querySelector(`[data-block-type="${blockType}"][data-block-id="${element.getAttribute("data-block-id")}"]`);
         if (matchingBlock) {
           if (blockType === "buy-buttons") {
             element.querySelector("buy-buttons").replaceWith(matchingBlock.querySelector("buy-buttons"));
+          } else if (blockType === "quantity-selector") {
+            const quantitySelectorElement = element.querySelector("quantity-selector");
+            if (quantitySelectorElement) {
+              const existingQuantity = quantitySelectorElement.quantity;
+              element.replaceWith(matchingBlock);
+              matchingBlock.querySelector("quantity-selector").quantity = existingQuantity;
+            }
           } else {
             element.replaceWith(matchingBlock);
           }
@@ -3586,16 +3648,16 @@ var CustomDetails = class extends HTMLElement {
   get contentElement() {
     return this.disclosureElement.lastElementChild;
   }
-  toggle(force = void 0, animate27 = true) {
+  toggle(force = void 0, animate26 = true) {
     const newValue = typeof force === "boolean" ? force : !(this.disclosureElement.getAttribute("aria-expanded") === "true");
     if (newValue) {
-      this.open({ instant: !animate27 });
+      this.open({ instant: !animate26 });
     } else {
       this.close();
     }
   }
   async open({ instant = false } = {}) {
-    if (this.disclosureElement.open) {
+    if (this.disclosureElement.getAttribute("aria-expanded") === "true") {
       return;
     }
     this.disclosureElement.open = true;
@@ -3606,10 +3668,10 @@ var CustomDetails = class extends HTMLElement {
     }
   }
   async close() {
+    this.disclosureElement.setAttribute("aria-expanded", "false");
     if (!this.disclosureElement.open) {
       return;
     }
-    this.disclosureElement.setAttribute("aria-expanded", "false");
     this.createHideAnimationControls()?.finished.then((event) => {
       if (event !== void 0) {
         this.disclosureElement.removeAttribute("open");
@@ -3628,10 +3690,10 @@ _CustomDetails_instances = new WeakSet();
  * perform animation. We therefore block that to allow doing an animation
  */
 onSummaryClicked_fn = function(event) {
+  event.preventDefault();
   if (this.disclosureElement.open && this.summaryElement.hasAttribute("data-follow-link")) {
     return window.location.href = this.summaryElement.getAttribute("data-follow-link");
   }
-  event.preventDefault();
   this.toggle();
 };
 
@@ -3823,7 +3885,7 @@ var Tabs = class extends HTMLElement {
     return parseInt(this.getAttribute("selected-index")) || 0;
   }
   set selectedIndex(index) {
-    this.setAttribute("selected-index", Math.min(Math.max(index, 0), __privateGet(this, _buttons).length - 1).toString());
+    this.setAttribute("selected-index", Math.min(Math.max(index, 0), Math.max(0, __privateGet(this, _buttons).length - 1)).toString());
     this.style.setProperty("--selected-index", this.selectedIndex.toString());
   }
   /**
@@ -3858,8 +3920,8 @@ _panels = new WeakMap();
 _delegate5 = new WeakMap();
 _Tabs_instances = new WeakSet();
 setupComponent_fn = function() {
-  __privateSet(this, _buttons, Array.from(this.shadowRoot.querySelector('slot[name="title"]').assignedNodes(), (item) => item.matches("button") && item || item.querySelector("button")));
-  __privateSet(this, _panels, Array.from(this.shadowRoot.querySelector('slot[name="content"]').assignedNodes()));
+  __privateSet(this, _buttons, Array.from(this.shadowRoot.querySelector('slot[name="title"]')?.assignedNodes() ?? [], (item) => item.matches("button") && item || item.querySelector("button")));
+  __privateSet(this, _panels, Array.from(this.shadowRoot.querySelector('slot[name="content"]')?.assignedNodes() ?? []));
   __privateGet(this, _buttons).forEach((button, index) => {
     button.setAttribute("role", "tab");
     button.setAttribute("aria-controls", `tab-panel-${__privateGet(this, _componentID)}-${index}`);
@@ -4499,11 +4561,12 @@ detectMousePosition_fn = function(event) {
 };
 detectScrollDirection_fn = function() {
   let isVisible;
-  if (window.scrollY > __privateGet(this, _scrollYTrackingPosition) && window.scrollY - __privateGet(this, _scrollYTrackingPosition) > 100) {
+  const scrollY = Math.max(0, window.scrollY);
+  if (scrollY > __privateGet(this, _scrollYTrackingPosition) && scrollY - __privateGet(this, _scrollYTrackingPosition) > 100) {
     isVisible = false;
-    __privateSet(this, _scrollYTrackingPosition, window.scrollY);
+    __privateSet(this, _scrollYTrackingPosition, scrollY);
   } else if (window.scrollY < __privateGet(this, _scrollYTrackingPosition)) {
-    __privateSet(this, _scrollYTrackingPosition, window.scrollY);
+    __privateSet(this, _scrollYTrackingPosition, scrollY);
     isVisible = true;
   }
   if (isVisible !== void 0) {
@@ -5427,7 +5490,6 @@ onSlideSettle_fn = function(event) {
   const videoList = Array.from(event.detail.cell.querySelectorAll("video"));
   if (__privateGet(this, _SlideshowCarousel_instances, autoplayPauseOnVideo_get) && this.cells.length > 1 && videoList.length > 0) {
     this.player?.pause();
-    videoList.forEach((video) => video.loop = false);
     event.detail.cell.addEventListener("ended", __privateGet(this, _onVideoEndedListener), { capture: true, once: true });
   }
 };
@@ -5524,22 +5586,9 @@ if (!window.customElements.get("timeline-carousel")) {
 }
 
 // js/theme.js
-import { animate as animate26, Delegate as Delegate11 } from "vendor";
+import { Delegate as Delegate11 } from "vendor";
 (() => {
   const delegateDocument = new Delegate11(document.documentElement);
-  if (window.themeVariables.settings.showPageTransition && window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
-    delegateDocument.on("click", 'a:not([target="_blank"])', async (event, target) => {
-      if (event.defaultPrevented || event.ctrlKey || event.metaKey) {
-        return;
-      }
-      if (target.hostname !== window.location.hostname || target.pathname === window.location.pathname) {
-        return;
-      }
-      event.preventDefault();
-      await animate26(document.body, { opacity: 0 }, { duration: 0.2 }).finished;
-      window.location = target.href;
-    });
-  }
   delegateDocument.on("click", 'a[href*="#"]', (event, target) => {
     if (event.defaultPrevented || target.matches("[allow-hash-change]") || target.pathname !== window.location.pathname || target.search !== window.location.search) {
       return;

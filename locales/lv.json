@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Valsts",
-      "language": "Valoda"
+      "language": "Valoda",
+      "change_country_accessibility_text": "Mainīt valsti vai valūtu",
+      "change_language_accessibility_text": "Mainīt valodu"
     },
     "privacy_banner": {
       "accept": "Pieņemt",
@@ -75,10 +77,7 @@
       "cart": "Grozs",
       "primary_navigation": "Primārā navigācija",
       "secondary_navigation": "Sekundārā navigācija",
-      "open_menu": "Atvērt navigācijas izvēlni",
-      "open_search": "Atvērt meklēšanu",
-      "open_account": "Atvērt konta lapu",
-      "open_cart": "Atvērt grozu"
+      "menu": "Izvēlne"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Mainīt daudzumu",
       "increase_quantity": "Palielināt daudzumu",
       "decrease_quantity": "Samazināt daudzumu",
+      "minimum_of": "Minimālais {{ min }}",
+      "maximum_of": "Maksimālais {{ max }}",
+      "increment_of": "Pieaugums {{ step }}",
       "cannot_add_more": "Vairāk pievienot nevar"
+    },
+    "volume_pricing": {
+      "title": "Cenu noteikšana pēc apjoma",
+      "minimum": "{{ minimum_quantity }}+",
+      "price_at_each": "{{ price }}/gab"
     },
     "rating_count": {
       "zero": "Nav atsauksmju",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "Autors: {{ author }}",
+      "visit_author_website": "Apmeklēt autora vietni",
       "share": "Dalīties",
       "tags": "Kategorijas"
     },
@@ -356,7 +364,8 @@
       "product": "Produkts",
       "total": "Kopā",
       "quantity": "Daudzums",
-      "remove": "Noņemt"
+      "remove": "Noņemt",
+      "remove_with_title": "Noņemt {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Iztērējiet vēl {{ remaining_amount }} un saņemiet bezmaksas piegādi!",

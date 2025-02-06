@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Land",
-      "language": "Taal"
+      "language": "Taal",
+      "change_country_accessibility_text": "Land of valuta wijzigen",
+      "change_language_accessibility_text": "Taal wijzigen"
     },
     "privacy_banner": {
       "accept": "Accepteren",
@@ -75,10 +77,7 @@
       "cart": "Winkelwagen",
       "primary_navigation": "Primaire navigatie",
       "secondary_navigation": "Secundaire navigatie",
-      "open_menu": "Navigatiemenu openen",
-      "open_search": "Zoeken openen",
-      "open_account": "Accountpagina openen",
-      "open_cart": "Winkelwagen openen"
+      "menu": "Menu"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Aantal wijzigen",
       "increase_quantity": "Aantal verhogen",
       "decrease_quantity": "Aantal verlagen",
+      "minimum_of": "Minimum van {{ min }}",
+      "maximum_of": "Maximum van {{ max }}",
+      "increment_of": "Verhoging van {{ step }}",
       "cannot_add_more": "Je kunt niet meer toevoegen"
+    },
+    "volume_pricing": {
+      "title": "Volumeprijsstelling",
+      "minimum": "Meer dan {{ quantity }}",
+      "price_at_each": "{{ price }}/st."
     },
     "rating_count": {
       "zero": "Geen recensies",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "Door {{ author }}",
+      "visit_author_website": "Bezoek de website van de auteur",
       "share": "Delen",
       "tags": "Labels"
     },
@@ -356,7 +364,8 @@
       "product": "Product",
       "total": "Totaal",
       "quantity": "Aantal",
-      "remove": "Verwijderen"
+      "remove": "Verwijderen",
+      "remove_with_title": "Verwijder {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Besteed {{ remaining_amount }} meer en krijg gratis verzending!",

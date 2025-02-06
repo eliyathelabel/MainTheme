@@ -75,7 +75,7 @@ Supported variables
                 <div class="h-stack align-start gap-2.5">
                   {%- if availability.available -%}
                     {%- render 'icon' with 'success', offset: true, class: 'text-success' -%}
-                    <span>{{- 'product.store_availability.pick_up_available' | t }}, {{ availability.pick_up_time | downcase -}}</span>
+                    <span>{{- 'product.store_availability.pick_up_available' | t }}, {{ availability.pick_up_time -}}</span>
                   {%- else -%}
                     {%- render 'icon' with 'error', offset: true, class: 'text-error' -%}
                     <span>{{- 'product.store_availability.pick_up_currently_unavailable' | t -}}</span>

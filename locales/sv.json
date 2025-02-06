@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Land",
-      "language": "Språk"
+      "language": "Språk",
+      "change_country_accessibility_text": "Byt land eller valuta",
+      "change_language_accessibility_text": "Byt språk"
     },
     "privacy_banner": {
       "accept": "Godkänn",
@@ -75,10 +77,7 @@
       "cart": "Kundvagn",
       "primary_navigation": "Primär navigering",
       "secondary_navigation": "Sekundär navigering",
-      "open_menu": "Öppna navigeringsmenyn",
-      "open_search": "Öppna sök",
-      "open_account": "Öppna kontosidan",
-      "open_cart": "Öppna varukorgen"
+      "menu": "Meny"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Ändra antal",
       "increase_quantity": "Öka antal",
       "decrease_quantity": "Minska antal",
+      "minimum_of": "Minimum av {{ min }}",
+      "maximum_of": "Maximum av {{ max }}",
+      "increment_of": "Ökning med {{ step }}",
       "cannot_add_more": "Du kan inte lägga till mer"
+    },
+    "volume_pricing": {
+      "title": "Volymprissättning",
+      "minimum": "Fler än {{ quantity }}",
+      "price_at_each": "för {{ price }}/styck"
     },
     "rating_count": {
       "one": "{{ count }} recension",
@@ -192,6 +199,7 @@
     },
     "post": {
       "written_by": "Av {{ author }}",
+      "visit_author_website": "Besök författarens webbplats",
       "share": "Dela",
       "tags": "Taggar"
     },
@@ -353,7 +361,8 @@
       "product": "Produkt",
       "total": "Totalt",
       "quantity": "Antal",
-      "remove": "Ta bort"
+      "remove": "Ta bort",
+      "remove_with_title": "Ta bort {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Hnadla för {{ remaining_amount }} till och få gratis frakt!",

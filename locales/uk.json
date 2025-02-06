@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Країна",
-      "language": "Мова"
+      "language": "Мова",
+      "change_country_accessibility_text": "Змінити країну або валюту",
+      "change_language_accessibility_text": "Змінити мову"
     },
     "privacy_banner": {
       "accept": "Прийняти",
@@ -75,10 +77,7 @@
       "cart": "Кошик",
       "primary_navigation": "Навігація першого рівня",
       "secondary_navigation": "Навігація другого рівня",
-      "open_menu": "Відкрити меню навігації",
-      "open_search": "Відкрити пошук",
-      "open_account": "Відкрити сторінку акаунта",
-      "open_cart": "Відкрити кошик"
+      "menu": "Меню"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Змінити кількість",
       "increase_quantity": "Збільшити кількість",
       "decrease_quantity": "Зменшити кількість",
+      "minimum_of": "Мінімум {{ min }}",
+      "maximum_of": "Максимум {{ max }}",
+      "increment_of": "Приріст на {{ step }}",
       "cannot_add_more": "Не можна додати більше"
+    },
+    "volume_pricing": {
+      "title": "Оптовая цена",
+      "minimum": "{{ quantity }}+",
+      "price_at_each": "{{ price }}/кажд."
     },
     "rating_count": {
       "zero": "Немає відгуків",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "Автор: {{ author }}",
+      "visit_author_website": "Відвідати сайт автора",
       "share": "Поділитися",
       "tags": "Мітки"
     },
@@ -356,7 +364,8 @@
       "product": "Товар",
       "total": "Усього",
       "quantity": "Кількість",
-      "remove": "Вилучити"
+      "remove": "Вилучити",
+      "remove_with_title": "Видалити {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Витратьте ще {{ remaining_amount }} та отримайте безкоштовну доставку!",

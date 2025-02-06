@@ -1,26 +1,30 @@
-<recently-viewed-products products-count="{{ section.settings.products_count }}" {% if request.page_type == 'product' %}exclude-id="{{ product.id }}"{% endif %}>
-  {%- if search.performed and search.results_count > 0 -%}
-    <style>
-      #shopify-section-{{ section.id }} {
-        --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
-        --product-list-horizontal-spacing-factor: {{ section.settings.horizontal_spacing_factor }};
-        --product-list-vertical-spacing-factor: {{ section.settings.vertical_spacing_factor }};
-      }
+<style>
+  #shopify-section-{{ section.id }}:has(recently-viewed-products:empty) {
+    display: none; /* Hide the whole section if it does not have any products to show */
+  }
 
-      @media screen and (min-width: 700px) {
-        #shopify-section-{{ section.id }} {
-          --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
-        }
-      }
-    </style>
+  #shopify-section-{{ section.id }} {
+    --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
+    --product-list-horizontal-spacing-factor: {{ section.settings.horizontal_spacing_factor }};
+    --product-list-vertical-spacing-factor: {{ section.settings.vertical_spacing_factor }};
+  }
 
-    {%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} {
+      --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
+    }
+  }
+</style>
 
-    <div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} color-scheme--bg-{{ color_scheme_hash }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
-      <div class="container">
-        <div class="section-stack">
-          {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content -%}
+{%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
 
+<div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} color-scheme--bg-{{ color_scheme_hash }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+  <div class="container">
+    <div class="section-stack">
+      {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content -%}
+
+      <recently-viewed-products products-count="{{ section.settings.products_count }}" {% if request.page_type == 'product' %}exclude-id="{{ product.id }}"{% endif %}>
+        {%- if search.performed and search.results_count > 0 -%}
           {%- assign parsed_terms = search.terms | split: ' OR ' -%}
 
           {%- capture product_list -%}
@@ -61,11 +65,11 @@
               </carousel-next-button>
             </product-list>
           {%- endif -%}
-        </div>
-      </div>
+        {%- endif -%}
+      </recently-viewed-products>
     </div>
-  {%- endif -%}
-</recently-viewed-products>
+  </div>
+</div>
 
 {% schema %}
 {

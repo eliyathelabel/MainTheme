@@ -1,18 +1,3 @@
-<style>
-  .swiper-container-lookbook {
-    width: 100%;
-    height: auto;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.1s linear;
-  }  
-</style>
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-
-<!-- Swiper JavaScript -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
 <cart-drawer id="cart-drawer" class="cart-drawer drawer {% if cart.empty? %}drawer--center-body{% endif %} color-scheme color-scheme--{{ section.settings.color_scheme.id }}" initial-focus="false" handle-editor-events>
   <p class="h4" slot="header">{{ 'cart.general.title' | t }}</p>
 
@@ -29,81 +14,61 @@
       {%- endfor -%}
     </div>
 
-    {%- unless cart.item_count == 0 -%}
-        <div id="ProductLookWidget" style="padding-bottom: 20px; position: sticky;">
-            <div class="ProductLook__Content">
-                {% assign l_product_ids = '' %}
-                {% for line_item in cart.items %}
-                    {% assign l_product_ids = l_product_ids | append: line_item.product.id | append: ',' %}
-                {% endfor %}
-                {% assign a_product_ids = '' %}
-                {% assign rendered_product_count = 0 %}
-                {% for line_item in cart.items %}
-                    {% if line_item.product.metafields.custom.lookbooks.value %}
-                        {% for lookbook in line_item.product.metafields.custom.lookbooks.value %}
-                            {% assign current_product_id = lookbook.product.value.id %}
-                            {% if lookbook.product.value.selected_or_first_available_variant.available %}
-                              {% unless l_product_ids contains current_product_id or a_product_ids contains current_product_id %}
-                                  {% assign rendered_product_count = rendered_product_count | plus: 1 %}
-                                  {% assign a_product_ids = a_product_ids | append: current_product_id | append: ',' %}
-                              {% endunless %}
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-                {% if rendered_product_count > 0 %}
-                  <div class="Product__section_Heading" style="height: auto; margin-top: 10px; margin-bottom: 10px; font-size:13px;font-weight:600;">Complete the Look</div>              
-                {% endif %}
-                <div class="swiper-container-lookbook">
-                  {% assign b_product_ids = '' %}
-                    {% for line_item in cart.items %}
-                        {% if line_item.product.metafields.custom.lookbooks.value %}
-                            {% for lookbook in line_item.product.metafields.custom.lookbooks.value %}
-                                {% assign current_product_id = lookbook.product.value.id %}
-                                {% if lookbook.product.value.selected_or_first_available_variant.available %}
-                                  {% unless l_product_ids contains current_product_id or b_product_ids contains current_product_id %}
-                                      {% assign b_product_ids = b_product_ids | append: current_product_id | append: ',' %}                                  
-                                  {% endunless %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="swiper-wrapper">
-                        {% assign rendered_product_ids = '' %}
-                        {% for line_item in cart.items %}
-                            {% if line_item.product.metafields.custom.lookbooks.value %}
-                                {% for lookbook in line_item.product.metafields.custom.lookbooks.value %}
-                                    {% assign current_product_id = lookbook.product.value.id %}
-                                    {% if lookbook.product.value.selected_or_first_available_variant.available %}
-                                      {% unless l_product_ids contains current_product_id or rendered_product_ids contains current_product_id %}
-                                          <div class="swiper-slide">
-                                              {% render 'custom-product-item-lookbook', product: lookbook.product.value, image: lookbook.image.value, button-label: 'ADD TO CART' %}
-                                          </div>                                                 
-                                          {% assign rendered_product_ids = rendered_product_ids | append: current_product_id | append: ',' %}
-                                      {% endunless %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                    </div>             
-                    {%- if rendered_product_count > 2 -%}
-                      <div class="swiper-pagination"></div>
-                      <div class="swiper-button-prev">
-                          <svg viewBox="0 0 50 50" width="50" height="50">
-                              <path d="M 5,25 L 30,45 L 35,40 L 15,25 L 35,10 L 30,5 Z" class="arrow"></path>
-                          </svg>
-                      </div>
-                      <div class="swiper-button-next">
-                          <svg viewBox="0 0 50 50" width="50" height="50">
-                              <path d="M 5,25 L 30,45 L 35,40 L 15,25 L 35,10 L 30,5 Z" class="arrow" transform="translate(50, 50) rotate(180)"></path>
-                          </svg>
-                      </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="PopupOverlay"></div>
-        </div>
-      {% endunless %}
+    {%- liquid
+      assign cross_sell_products_count = 0
+
+      for product in section.settings.cross_sell_products
+        assign products_in_cart = cart.items | where: 'product_id', product.id
+
+        if products_in_cart.size == 0 and product.available
+          assign cross_sell_products_count = cross_sell_products_count | plus: 1
+        endif
+      endfor
+    -%}
+
+    {%- if cross_sell_products_count > 0 -%}
+      <div class="cart-drawer__complementary-products complementary-products">
+        {%- assign carousel_id = 'complementary-products-carousel-' | append: section.id -%}
+
+        {%- if section.settings.cross_sell_title != blank or section.settings.cross_sell_stack_products == false and cross_sell_products_count > 1 -%}
+          <div class="complementary-products__header complementary-products__header--align-start">
+            <p class="h6">{{ section.settings.cross_sell_title }}</p>
+
+            {%- if section.settings.cross_sell_stack_products == false and cross_sell_products_count > 1 -%}
+              <carousel-navigation aria-controls="{{ carousel_id }}" class="page-dots page-dots--narrow">
+                {%- for i in (1..cross_sell_products_count) -%}
+                  <button class="relative" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+                    <span class="sr-only">{{ 'general.accessibility.go_to_item' | t: index: forloop.index }}</span>
+                  </button>
+                {%- endfor -%}
+              </carousel-navigation>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- liquid
+          capture complementary_products
+            for product in section.settings.cross_sell_products
+              assign products_in_cart = cart.items | where: 'product_id', product.id
+
+              if products_in_cart.size == 0 and product.available
+                render 'product-card-horizontal', product: product, show_quick_buy: true
+              endif
+            endfor
+          endcapture
+        -%}
+
+        {%- if section.settings.cross_sell_stack_products -%}
+          <div class="complementary-products__product-list">
+            {{- complementary_products -}}
+          </div>
+        {%- else -%}
+          <scroll-carousel id="{{ carousel_id }}" class="complementary-products__product-list complementary-products__product-list--carousel scroll-area bleed snap-x">
+            {{- complementary_products -}}
+          </scroll-carousel>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
     <form action="{{ routes.cart_url }}" method="POST" class="cart-drawer__footer" slot="footer">
       <input type="hidden" name="attributes[products_mobile_grid_mode]" value="">
@@ -154,7 +119,7 @@
             {{- 'cart.general.checkout' | t -}}
 
             {%- if section.settings.show_price_in_checkout_button -%}
-              <span class="cart-drawer__button-price"><span class='ak-upsell-original-price'>{{- cart.total_price | money -}}</span><span class='ak-upsell-cart-total'></span></span>
+              <span class="cart-drawer__button-price">{{- cart.total_price | money -}}</span>
             {%- endif -%}
           {%- endcapture -%}
 

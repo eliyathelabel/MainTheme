@@ -24,7 +24,7 @@ Supported variables
       assign current_block_group_name = ''
 
       if context == 'quick_buy'
-        assign allow_blocks = '@app vendor title price payment_terms separator variant_picker product_variations line_item_property buy_buttons' | split: ' '
+        assign allow_blocks = '@app vendor title price quantity_selector payment_terms separator variant_picker product_variations line_item_property buy_buttons' | split: ' '
       endif
 
       if allow_blocks != blank
@@ -116,19 +116,6 @@ Supported variables
             {%- render block -%}
 
           {%- when 'vendor' -%}
-            {%- for tag in product.tags -%}
-              {%- if tag contains 'COMING SOON' -%}
-                <div class="ProductTag__Text" {{ block.shopify_attributes }}>
-                  <div class="Product__ComingSoon-Tag">{{tag}}</div>
-                </div>
-                {%- break -%}
-              {%- elsif tag contains 'BACK BY DEMAND' -%}
-                <div class="ProductTag__Text" {{ block.shopify_attributes }}>
-                  <div class="Product__ComingSoon-Tag">{{tag}}</div>
-                </div>
-                {%- break -%}
-              {%- endif -%}
-            {%- endfor -%}
             {%- if product != blank -%}
               {%- render 'vendor' with product.vendor, class: 'h6 link-faded' -%}
             {%- else -%}
@@ -185,31 +172,6 @@ Supported variables
                 {%- endif -%}
               </div>
             {%- endif -%}
-          {% if localization.country.iso_code == 'CA' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN CANADA
-              </div>
-            {% elsif localization.country.iso_code == 'GB' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN UK
-              </div>
-            {% elsif localization.country.iso_code == 'AE' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN UAE
-              </div>
-            {% elsif localization.country.iso_code == 'US' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN US
-              </div>
-            {% elsif localization.country.iso_code == 'SA' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN SAUDI ARABIA
-              </div>
-            {% elsif localization.country.iso_code == 'IRL' %}
-              <div class="canada_notice_bar">
-                <span>DUTIES & TAXES COVERED</span> | FOR CUSTOMERS IN IRELAND
-              </div>
-            {% endif %} 
 
           {%- when 'payment_terms' -%}
             {%- if product != blank -%}
@@ -338,7 +300,7 @@ Supported variables
                       render 'input', type: 'text', label: block.settings.label, name: name, form: product_form_id, required: block.settings.required, maxlength: block.settings.max_length
                     endif
                   elsif block.settings.type == 'checkbox'
-                    render 'checkbox-outlet', label: block.settings.label, name: name, form: product_form_id, value: block.settings.checkbox_value, required: block.settings.required
+                    render 'checkbox', label: block.settings.label, name: name, form: product_form_id, value: block.settings.checkbox_value, required: block.settings.required
                   elsif block.settings.type == 'dropdown' and block.settings.select_values != blank
                     assign option_values = block.settings.select_values | split: ','
                     render 'select', label: block.settings.label, option_values: option_values, show_empty_value: true, name: name, form: product_form_id, required: block.settings.required
@@ -349,8 +311,37 @@ Supported variables
 
           {%- when 'quantity_selector' -%}
             {%- if product.available -%}
-              {% render 'quantity-selector', variant: product.selected_or_first_available_variant, form: product_form_id %}
+              <div class="v-stack gap-1 justify-items-start">
+                {%- liquid
+                  assign variant = product.selected_or_first_available_variant
+                  assign quantity_rules = ''
+
+                  render 'quantity-selector', variant: variant, form: product_form_id
+
+                  if variant.quantity_rule.min > 1
+                    assign rule = 'product.quantity.minimum_of' | t: min: variant.quantity_rule.min
+                    assign quantity_rules = quantity_rules | append: ' / ' | append: rule
+                  endif
+
+                  if variant.quantity_rule.max != nil
+                    assign rule = 'product.quantity.maximum_of' | t: max: variant.quantity_rule.max
+                    assign quantity_rules = quantity_rules | append: ' / ' | append: rule
+                  endif
+
+                  if variant.quantity_rule.increment > 1
+                    assign rule = 'product.quantity.increment_of' | t: step: variant.quantity_rule.increment
+                    assign quantity_rules = quantity_rules | append: ' / ' | append: rule
+                  endif
+                -%}
+
+                {%- if quantity_rules != blank -%}
+                  <p class="text-subdued text-sm">{{ quantity_rules | remove_first: ' / ' | capitalize }}</p>
+                {%- endif -%}
+              </div>
             {%- endif -%}
+
+          {%- when 'volume_pricing' -%}
+            {%- render 'volume-pricing-table', variant: variant -%}
 
           {%- when 'inventory' -%}
             {%- render 'inventory',
@@ -358,17 +349,13 @@ Supported variables
                 show_in_stock_quantity: block.settings.show_in_stock_quantity,
                 show_progress_bar: block.settings.show_progress_bar,
                 progress_bar_max_value: block.settings.progress_bar_max_value,
-                low_threshold: block.settings.low_inventory_threshold,
-                text_color: block.settings.text_color,
-                show_restock_note: block.settings.show_restock_note
+                low_threshold: block.settings.low_inventory_threshold
             -%}
-          {%- when 'preorder_widget' -%}
-            {% render 'preorder-widget', product:product, variant: product.selected_or_first_available_variant, content:block.settings %}                  
+
           {%- when 'buy_buttons' -%}
             {%- render 'buy-buttons',
                 product: product,
                 form_id: product_form_id,
-                content:block.settings,
                 show_payment_button: block.settings.show_payment_button,
                 show_gift_card_recipient: block.settings.show_gift_card_recipient,
                 atc_button_background: block.settings.atc_button_background,
@@ -376,21 +363,7 @@ Supported variables
                 payment_button_background: block.settings.payment_button_background,
                 payment_button_text_color: block.settings.payment_button_text_color
             -%}
-          {%- when 'lookbooks' -%}
-            {% if  product.metafields.custom.lookbooks.value != blank %} 
-              <div class="ProductLook__Content" {{ block.shopify_attributes }}>
-                <div class="Product__section_Heading" >{% if block.settings.heading != blank %}{{ block.settings.heading }}{% else %}Complete the Look{% endif %}</div>
 
-                <div class="complete_look_section_wrap">
-                  {% for lookbook in product.metafields.custom.lookbooks.value %}    
-                    {% if lookbook.product.value != blank %}                      
-                      {% render 'product-item-lookbook', product:lookbook.product.value, image:lookbook.image.value, button-label: block.settings.button_label %}                            
-                    {% endif %}
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="PopupOverlay"></div>
-            {% endif %}   
           {%- when 'pickup_availability' -%}
             {%- if product != blank -%}
               {%- render 'pickup-availability', product_variant: product.selected_or_first_available_variant -%}
@@ -563,9 +536,6 @@ Supported variables
                 {%- render 'icon' with 'chevron-right' -%}
               </a>
             {%- endif -%}
-
-        {%- when 'swatch' -%}
-          {% render 'product-color-swatch', label:block.settings.heading %}  
         {%- endcase -%}
       {%- endcapture -%}
       

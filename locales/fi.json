@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Maa",
-      "language": "Kieli"
+      "language": "Kieli",
+      "change_country_accessibility_text": "Vaihda maa tai valuutta",
+      "change_language_accessibility_text": "Vaihda kieli"
     },
     "privacy_banner": {
       "accept": "Hyväksy",
@@ -75,10 +77,7 @@
       "cart": "Ostoskori",
       "primary_navigation": "Päänavigointi",
       "secondary_navigation": "Toissijainen navigointi",
-      "open_menu": "Avaa navigointivalikko",
-      "open_search": "Avaa haku",
-      "open_account": "Avaa tilisivu",
-      "open_cart": "Avaa ostoskori"
+      "menu": "Valikko"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Muuta määrää",
       "increase_quantity": "Lisää määrää",
       "decrease_quantity": "Vähennä määrää",
+      "minimum_of": "Vähintään {{ min }}",
+      "maximum_of": "Enintään {{ max }}",
+      "increment_of": "Lisäys {{ step }}",
       "cannot_add_more": "Et voi lisätä enempää"
+    },
+    "volume_pricing": {
+      "title": "Volyymihinnoittelu",
+      "minimum": "Yli {{ quantity }}",
+      "price_at_each": "{{ price }}/kpl"
     },
     "rating_count": {
       "zero": "Ei arvosteluja",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "Kirjoittaja: {{ author }}",
+      "visit_author_website": "Vieraile kirjailijan verkkosivustolla",
       "share": "Jaa",
       "tags": "Tunnisteet"
     },
@@ -356,7 +364,8 @@
       "product": "Tuote",
       "total": "Yhteensä",
       "quantity": "Määrä",
-      "remove": "Poista"
+      "remove": "Poista",
+      "remove_with_title": "Poista {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Käytä vielä {{ remaining_amount }}, niin saat ilmaisen toimituksen!",

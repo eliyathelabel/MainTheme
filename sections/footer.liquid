@@ -20,6 +20,9 @@
           {%- for block in section.blocks -%}
             {%- capture block_content -%}
               {%- case block.type -%}
+                {%- when '@app' -%}
+                  {%- render block -%}
+
                 {%- when 'image' -%}
                   {%- if block.settings.image != blank -%}
                     {%- capture sizes -%}{{ block.settings.image_width }}px{%- endcapture -%}
@@ -116,7 +119,7 @@
             {%- endcapture -%}
 
             {%- if block_content != blank -%}
-              <div class="footer__block footer__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              <div class="footer__block footer__block--{{ block.type | remove_first: '@' }}" {{ block.shopify_attributes }}>
                 {{- block_content -}}
               </div>
             {%- endif -%}
@@ -161,17 +164,14 @@
           </div>
         {%- endif -%}
 
-{% comment %}
         <p class="heading text-subdued text-xxs">© {{ 'now' | date: '%Y' }} - {{ shop.name }} {{ powered_by_link }}</p>
-{% endcomment %}
-        <p class="heading text-subdued text-xxs">© {{ 'now' | date: '%Y' }} - {{ shop.name }}</p>
 
         {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-          <div class="payment-methods">
+          <ul class="payment-methods unstyled-list">
             {%- for type in shop.enabled_payment_types -%}
-              {{- type | payment_type_svg_tag -}}
+              <li>{{- type | payment_type_svg_tag -}}</li>
             {%- endfor -%}
-          </div>
+          </ul>
         {%- endif -%}
       </div>
     </div>
@@ -246,6 +246,9 @@
     }
   ],
   "blocks": [
+    {
+      "type": "@app"
+    },
     {
       "type": "image",
       "name": "t:sections.footer.blocks.image.name",

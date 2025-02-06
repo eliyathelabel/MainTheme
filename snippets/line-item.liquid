@@ -49,7 +49,7 @@ Supported variables
         {%- if line_item.selling_plan_allocation -%}
           <p class="text-subdued">{{ line_item.selling_plan_allocation.selling_plan.name }}</p>
         {%- endif -%}
-        
+
         {%- unless line_item.properties == empty -%}
           <ul class="text-subdued">
             {%- for property in line_item.properties -%}
@@ -80,7 +80,10 @@ Supported variables
       {%- if show_quantity_selector -%}
         <line-item-quantity class="h-stack gap-4 {% if request.page_type == 'cart' %}sm:hidden{% endif %}">
           {%- render 'quantity-selector', line_item: line_item, size: 'sm' -%}
-          <a href="{{ line_item.url_to_remove }}" class="link text-xs">{{ 'cart.order.remove' | t }}</a>
+          
+          <a href="{{ line_item.url_to_remove }}" class="link text-xs" aria-label="{{ 'cart.order.remove_with_title' | t: title: line_item.title | escape }}">
+            {{- 'cart.order.remove' | t -}}
+          </a>
         </line-item-quantity>
       {%- else -%}
         <p class="text-subdued text-sm sm:hidden">{{ 'customer.order.quantity' | t }}: {{ line_item.quantity }}</p>

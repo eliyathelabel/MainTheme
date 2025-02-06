@@ -48,7 +48,9 @@
     },
     "localization": {
       "country": "Land",
-      "language": "Språk"
+      "language": "Språk",
+      "change_country_accessibility_text": "Endre land eller valuta",
+      "change_language_accessibility_text": "Endre språk"
     },
     "privacy_banner": {
       "accept": "Godta",
@@ -75,10 +77,7 @@
       "cart": "Handlekurv",
       "primary_navigation": "Primær navigasjon",
       "secondary_navigation": "Sekundær navigasjon",
-      "open_menu": "Åpne navigeringsmeny",
-      "open_search": "Åpne søk",
-      "open_account": "Åpne kontoside",
-      "open_cart": "Åpne handlekurv"
+      "menu": "Meny"
     }
   },
   "product": {
@@ -121,7 +120,15 @@
       "change_quantity": "Endre antall",
       "increase_quantity": "Øk antall",
       "decrease_quantity": "Reduser antall",
+      "minimum_of": "Minimum på {{ min }}",
+      "maximum_of": "Maksimum på {{ max }}",
+      "increment_of": "Økning på {{ step }}",
       "cannot_add_more": "Du kan ikke legge til flere"
+    },
+    "volume_pricing": {
+      "title": "Volumprissetting",
+      "minimum": "{{ quantity }}+",
+      "price_at_each": "til {{ price }}/pr. stk"
     },
     "rating_count": {
       "zero": "Ingen vurderinger",
@@ -194,6 +201,7 @@
     },
     "post": {
       "written_by": "Av {{ author }}",
+      "visit_author_website": "Besøk forfatterens nettsted",
       "share": "Del",
       "tags": "Etiketter"
     },
@@ -356,7 +364,8 @@
       "product": "Produkt",
       "total": "Totalt",
       "quantity": "Antall",
-      "remove": "Fjern"
+      "remove": "Fjern",
+      "remove_with_title": "Fjern {{ title }}"
     },
     "free_shipping_bar": {
       "limit_unreached_html": "Bruk {{ remaining_amount }} til og få gratis frakt!",
